@@ -113,16 +113,22 @@
   (async-shell-command (concat "python " (buffer-file-name)))
   (other-window 1)
   )
+
 (defun my-code-run-alacritty()
   (interactive)
   (if (equal major-mode 'python-mode)
+      ;; python language
         (let ((tmpfile "/tmp/my-code-run-alacritty.sh")
                 (tmpSourceFile "/tmp/my-code-run-alacritty.py"))
-                (write-region nil (point-max) tmpSourceFile)
-                (write-region (concat "python " tmpSourceFile "\necho\necho -----------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil tmpfile)
+                (write-region "import time\nSTARTTIME=time.time()\n\n" nil tmpSourceFile)
+                (write-region nil (point-max) tmpSourceFile t)
+                (write-region "\nENDTIME=time.time()\nprint('\\n\\n')\nprint('-'*30)\nprint('Total Time: {}s'.format(ENDTIME-STARTTIME))\n" nil tmpSourceFile t)
+                (write-region (concat "python " tmpSourceFile "\necho ------------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil tmpfile)
                 (shell-command (concat "chmod +x " tmpfile))
-                (shell-command (concat "alacritty --command " tmpfile))
+                ;; (shell-command (concat "alacritty --command " tmpfile))
+                (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --command " tmpfile))
         )
+    ;; c language
     (if (equal major-mode 'c-mode)
         (let ( (tmpfile "/tmp/my-code-run-alacritty.sh")
                (tmpExecutefile "/tmp/my-code-run-py-alacritty")
@@ -130,11 +136,25 @@
           (write-region nil (point-max) tmpSourceFile)
           (write-region (concat "clang " tmpSourceFile " -o " tmpExecutefile " -fcolor-diagnostics\n" tmpExecutefile "\necho\necho -----------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil tmpfile)
           (shell-command (concat "chmod +x " tmpfile))
-          (shell-command (concat "alacritty --command " tmpfile))
+          ;; (shell-command (concat "alacritty --command " tmpfile))
+          (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --command " tmpfile))
           )
                 )
     )
 )
+
+(defun my-translator()
+  (interactive)
+  (setq my-tmpV-translator-bounds (bounds-of-thing-at-point 'word))
+  (setq my-tmpV-translator-pos1 (car my-tmpV-translator-bounds))
+  (setq my-tmpV-translator-pos2 (cdr my-tmpV-translator-bounds))
+  (setq my-tmpV-translator-mything (buffer-substring-no-properties my-tmpV-translator-pos1 my-tmpV-translator-pos2))
+  (setq my-tmpV-translator-tmpFile "/tmp/my-translator.sh")
+  (write-region (concat "echo " my-tmpV-translator-mything "\necho -----------------------------\necho\n" "ydict -v 1 -c " my-tmpV-translator-mything "\necho\necho -----------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil my-tmpV-translator-tmpFile)
+  (shell-command (concat "chmod +x " my-tmpV-translator-tmpFile))
+  ;; (shell-command (concat "alacritty --command " my-tmpV-translator-tmpFile))
+  (start-process-shell-command "my-translator" "*my-buffer*" (concat "alacritty --command " my-tmpV-translator-tmpFile))
+    )
 
 
 
@@ -146,7 +166,7 @@
 (map! :n "<SPC>zv" #'vterm-other-window)
 (map! :n "<SPC>zcc" #'my-code-run-py-interactively)
 (map! :n "<SPC>zca" #'my-code-run-alacritty)
-(map! :n "<SPC>zt" #'go-translate)
+(map! :n "<SPC>zt" #'my-translator)
 (map! :v "<SPC>zes" #'evil-surround-edit)
 (map! :n "<SPC>z\\" #'chunyang-toggle-frame-transparency)
 
@@ -210,11 +230,11 @@
     "<SPC>zo" "my-org-map"
     "<SPC>zop" "reveal.js"
     "<SPC>zol" "latex"))
-(use-package! go-translate
-  :config
-  (setq go-translate-base-url "https://translate.google.cn")
-  (setq go-translate-local-language "zh-CN")
-  (setq go-translate-token-current (cons 430675 2721866130)))
+;; (use-package! go-translate
+;;   :config
+;;   (setq go-translate-base-url "https://translate.google.cn")
+;;   (setq go-translate-local-language "zh-CN")
+;;   (setq go-translate-token-current (cons 430675 2721866130)))
 
 (use-package org-latex-impatient
   :defer t

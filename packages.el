@@ -49,7 +49,9 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! go-translate)
+;; (package! go-translate)
+;; (package! multi-translate
+;;   :recipe (:host github :repo "twlz0ne/multi-translate.el" :files ("multi-translate.el")))
 (package! org-latex-impatient)
 (package! asymbol
  :recipe (:host github :repo "dwuggh/asymbol"))
