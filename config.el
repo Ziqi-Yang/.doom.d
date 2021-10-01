@@ -25,8 +25,10 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
+
 ;; (setq doom-theme 'doom-gruvbox-light)
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-gruvbox)
+;; (setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -58,10 +60,13 @@
 
 (setq doom-font (font-spec :family "Fira Code" :size 45))
 (setq initial-frame-alist (quote ((fullscreen . maximized))))
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; also works with emacsclient
 ;; (add-hook! python-mode
 ;;   (setq python-shell-interpreter "ipython"))
 (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
+(setq fancy-splash-image "/home/zarkli/.doom.d/resources/profile_0_modified.png")
 
+(setq evil-escape-delay 0.3)
 (setq evil-escape-key-sequence "jj") ;; use jj to exit insert mode
 (setq x-select-enable-clipboard nil) ;; make registers work like vim,but emacs C-y doesn't work
 
@@ -76,16 +81,11 @@
       deft-extensions '("org")
       deft-recursive t)
 
-;; (setq scroll-margin 14) ;; like scrolloff in vim
-;; (setq scroll-conservatively 1) ;; it seems already opened in doom emacs
+(setq scroll-margin 14) ;; like scrolloff in vim
+(setq scroll-conservatively 1) ;; it seems already opened in doom emacs
 
 (global-visual-line-mode t) ;; word wrap
 
-(defun chunyang-toggle-frame-transparency ()
-  (interactive)
-  (if (equal (frame-parameter nil 'alpha) 75)
-      (set-frame-parameter nil 'alpha 100)
-    (set-frame-parameter nil 'alpha 75)))
 
 (add-hook 'org-mode-hook 'org-hide-block-all) ;; hide code/quote/... blocks
 (after! ispell (setq ispell-alternate-dictionary "~/.doom.d/ispell/english-words.txt"))
@@ -108,15 +108,47 @@
   (if (equal (frame-parameter nil 'alpha) 75)
       (set-frame-parameter nil 'alpha 100)
     (set-frame-parameter nil 'alpha 75)))
+(defun my-code-run-py-interactively()
+  (interactive)
+  (async-shell-command (concat "python " (buffer-file-name)))
+  (other-window 1)
+  )
+(defun my-code-run-alacritty()
+  (interactive)
+  (if (equal major-mode 'python-mode)
+        (let ((tmpfile "/tmp/my-code-run-alacritty.sh")
+                (tmpSourceFile "/tmp/my-code-run-alacritty.py"))
+                (write-region nil (point-max) tmpSourceFile)
+                (write-region (concat "python " tmpSourceFile "\necho\necho -----------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil tmpfile)
+                (shell-command (concat "chmod +x " tmpfile))
+                (shell-command (concat "alacritty --command " tmpfile))
+        )
+    (if (equal major-mode 'c-mode)
+        (let ( (tmpfile "/tmp/my-code-run-alacritty.sh")
+               (tmpExecutefile "/tmp/my-code-run-py-alacritty")
+               (tmpSourceFile "/tmp/my-code-run-alacritty.c"))
+          (write-region nil (point-max) tmpSourceFile)
+          (write-region (concat "clang " tmpSourceFile " -o " tmpExecutefile " -fcolor-diagnostics\n" tmpExecutefile "\necho\necho -----------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil tmpfile)
+          (shell-command (concat "chmod +x " tmpfile))
+          (shell-command (concat "alacritty --command " tmpfile))
+          )
+                )
+    )
+)
 
 
-(map! :n "<SPC>\\" #'my-hugo-new-file)
+
+(map! :n "<SPC>zh" #'my-hugo-new-file)
 (map! :n "<SPC>zp" "\"+P")
-(map! :v "<SPC>zy" "\"+y")
+(map! :v "<SPC>zyy" "\"+y")
+(map! :n "<SPC>zyw" ":%y+")
 (map! :n "<SPC>zbe" ":%d")
+(map! :n "<SPC>zv" #'vterm-other-window)
+(map! :n "<SPC>zcc" #'my-code-run-py-interactively)
+(map! :n "<SPC>zca" #'my-code-run-alacritty)
 (map! :n "<SPC>zt" #'go-translate)
 (map! :v "<SPC>zes" #'evil-surround-edit)
-(map! :n "<SPC>z<SPC>" #'chunyang-toggle-frame-transparency)
+(map! :n "<SPC>z\\" #'chunyang-toggle-frame-transparency)
 
 (defun my-org-re-reveal-init-and-export-and-browse()
   (interactive)
@@ -127,32 +159,57 @@
 (defun my-org-complete-brackets()(interactive)(insert "{}")(left-char 1))
 (defun my-org-complete-squre-brakcets()(interactive)(insert "[]")(left-char 1))
 (defun my-org-complete-underline()(interactive)(insert "_{}")(left-char 1))
-(defun my-org-complete-z()(interactive)(insert "z"))
-(defun my-org-complete-lrbrackets()(interactive)(insert "\\left(   \\right)")(left-char 9))
+(defun my-org-complete-other-1()(interactive)(insert "^{}")(left-char 1))
+(defun my-org-complete-parentheses()(interactive)(insert "()")(left-char 1))
+;; (defun my-org-complete-backslash()(interactive)(insert "\\"))
+;; (defun my-org-complete-lrbrackets()(interactive)(insert "\\left(   \\right)")(left-char 9))
+(setq my-org-preview-toggle nil)
+(defun my-org-preview-all-latex()(interactive)
+       (if (equal my-org-preview-toggle nil)
+           (progn
+       (org--latex-preview-region (point-min) (point-max))
+        (setq my-org-preview-toggle t)
+             )
+       (progn
+         (org-clear-latex-preview (point-min) (point-max))
+        (setq my-org-preview-toggle nil)
+         )))
 
 (after! org
-  (map! :n "<SPC>zop" #'my-org-re-reveal-init-and-export-and-browse)
-  (map! :n "<SPC>zol" #'org-latex-preview)
-  (map! :i "$" #'my-org-complete-dollar)
-  (map! :i "{" #'my-org-complete-brackets)
-  (map! :i "[" #'my-org-complete-squre-brakcets)
-  (map! :i "_" #'my-org-complete-underline)
-  (map! :i "zlb" #'my-org-complete-lrbrackets)
-  (map! :i "zz" #'my-org-complete-z)
-  )
+  (defun my-org-map()
+    (interactive)
+    (map! :n "<SPC>zop" #'my-org-re-reveal-init-and-export-and-browse)
+    (map! :n "<SPC>zoll" #'org-latex-preview)
+    (map! :n "<SPC>zola" #'my-org-preview-all-latex)
+    ;; (map! :n "<SPC>zolc" #'my-org-clear-all-latex)
+    (map! :i "$" #'my-org-complete-dollar)
+    (map! :i "{" #'my-org-complete-brackets)
+    (map! :i "[" #'my-org-complete-squre-brakcets)
+    (map! :i "(" #'my-org-complete-parentheses)
+    (map! :i "^" #'my-org-complete-other-1)
+    (map! :i "_" #'my-org-complete-underline)
+    ;; (map! :i "C-'" #'my-org-complete-lrbrackets)
+    ;; (map! :i "C-\\" #'my-org-complete-backslash)
+    )
+  (map! :n "<SPC>zoo" #'my-org-map)
+)
 
 (use-package! which-key
   :config
   (which-key-add-key-based-replacements
     "<SPC>z" "mine"
+    "<SPC>zc" "code"
     "<SPC>zp" "paste(clip)"
-    "<SPC>zy" "copy(clip)"
+    "<SPC>zy" "copy"
+    "<SPC>zyy" "copy(clip)"
+    "<SPC>zyw" "copy-whole-buffer(clip)"
     "<SPC>zb" "buffer"
     "<SPC>zbe" "erase-buffer"
     "<SPC>ze" "evil"
     "<SPC>zo" "org"
+    "<SPC>zo" "my-org-map"
     "<SPC>zop" "reveal.js"
-    "<SPC>zol" "latex-preview"))
+    "<SPC>zol" "latex"))
 (use-package! go-translate
   :config
   (setq go-translate-base-url "https://translate.google.cn")
@@ -186,9 +243,12 @@
   (add-to-list 'org-capture-templates
                '("z" "mine"))
   (add-to-list 'org-capture-templates
-               '("zm" "math" entry (file "/home/zarkli/Documents/notes/org/math/1.org") "* %t %?" :prepend t :kill-buffer t))
+               '("zm" "math" item (file "/home/zarkli/Documents/notes/org/math/1.org") "+ %?" :prepend t :kill-buffer t))
+  (add-to-list 'org-capture-templates
+               '("za" "algorithm collections" item (file "/home/zarkli/Documents/notes/org/mynotes/algorithm/collections.org") "+ %t %?" :prepend t :kill-buffer t))
 )
 
 (after! org
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 5.0))
 )
+(set-company-backend! 'org-mode '(company-math-symbols-latex company-latex-commands company-yasnippet company-dabbrev))

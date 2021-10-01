@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: counttime
+# key: counttime
+# condition: t
+# --
+def countTime(func, *args):
+    import time
+
+    start = time.time()
+    print(func(*args))
+    end = time.time()
+    print(end - start)
+
+$0
