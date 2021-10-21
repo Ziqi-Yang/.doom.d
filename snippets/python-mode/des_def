@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: des_def
+# key: des_def
+# condition: t
+# --
+"""
+Desc:
+
+Parameters:
+
+return:
+
+"""
