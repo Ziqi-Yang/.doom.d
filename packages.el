@@ -52,8 +52,19 @@
 ;; (package! go-translate)
 ;; (package! multi-translate
 ;;   :recipe (:host github :repo "twlz0ne/multi-translate.el" :files ("multi-translate.el")))
-(package! org-latex-impatient)
-(package! asymbol
- :recipe (:host github :repo "dwuggh/asymbol"))
 
-(package! cdlatex :disable t)
+;; (package! org-latex-impatient)
+;; (package! asymbol
+;;  :recipe (:host github :repo "dwuggh/asymbol"))
+
+;; (package! cdlatex :disable t)
+
+(package! gitconfig-mode
+	  :recipe (:host github :repo "magit/git-modes"
+			 :files ("gitconfig-mode.el")))
+(package! gitignore-mode
+	  :recipe (:host github :repo "magit/git-modes"
+			 :files ("gitignore-mode.el")))
+(package! popweb
+  :recipe (:host github :repo "manateelazycat/popweb"
+           :files ("extension/dict/*" "*")))

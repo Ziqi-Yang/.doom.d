@@ -58,17 +58,17 @@
 ;; they are implemented.
 
 
-(setq doom-font (font-spec :family "Fira Code" :size 45))
+(setq doom-font (font-spec :family "Fira Code" :size 40))
 (setq initial-frame-alist (quote ((fullscreen . maximized))))
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; also works with emacsclient
 ;; (add-hook! python-mode
 ;;   (setq python-shell-interpreter "ipython"))
 (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
-(setq fancy-splash-image "/home/zarkli/.doom.d/resources/profile_0_modified.png")
+(setq fancy-splash-image "/home/zarkli/.doom.d/resources/2_mod.png")
 
 
-(setq evil-escape-delay 0.3)
-(setq evil-escape-key-sequence "jj") ;; use jj to exit insert mode
+(setq evil-escape-delay 1.0)
+(setq evil-escape-key-sequence "kk") ;; use kk to exit insert mode
 (setq x-select-enable-clipboard nil) ;; make registers work like vim,but emacs C-y doesn't work
 
 (setq org-plot/gnuplot-default-options
@@ -84,9 +84,22 @@
 
 (setq scroll-margin 14) ;; like scrolloff in vim
 (setq scroll-conservatively 1) ;; it seems already opened in doom emacs
+;; 在 init.el 下的 completion 栏目下的 vertico 开启了之后
+;; which-key 的 c-h 变成了 竖直列出按键，感觉不如分页好，这里做下修改
+(setq which-key-side-window-max-height 0.3) ;; 使得一页可以容下主菜单所有分类
+
 
 (global-visual-line-mode t) ;; word wrap
 
+;; (setq company-idle-delay 0) ;; 自动补全延迟设置为
+
+
+(plist-put! +ligatures-extra-symbols
+  :true          "✓"
+  :false         "✗"
+  :str           "⟆"
+  :list          "⧻"
+)
 
 (add-hook 'org-mode-hook 'org-hide-block-all) ;; hide code/quote/... blocks
 (after! ispell (setq ispell-alternate-dictionary "~/.doom.d/ispell/english-words.txt"))
@@ -109,26 +122,32 @@
   (if (equal (frame-parameter nil 'alpha) 75)
       (set-frame-parameter nil 'alpha 100)
     (set-frame-parameter nil 'alpha 75)))
-(defun my-code-run-py-interactively()
-  (interactive)
-  (async-shell-command (concat "python " (buffer-file-name)))
-  (other-window 1)
-  )
+;; (defun my-code-run-py-interactively()
+;;   (interactive)
+;;   (async-shell-command (concat "python " (buffer-file-name)))
+;;   (other-window 1)
+;;   )
 
 (defun my-code-run-alacritty()
   (interactive)
   (if (equal major-mode 'python-mode)
       ;; python language
-        (let ((tmpfile "/tmp/my-code-run-alacritty.sh")
-                (tmpSourceFile "/tmp/my-code-run-alacritty.py"))
-                (write-region "import time\nSTARTTIME=time.time()\n\n" nil tmpSourceFile)
-                (write-region nil (point-max) tmpSourceFile t)
-                (write-region "\nENDTIME=time.time()\nprint('\\n\\n')\nprint('-'*30)\nprint('Total Time: {}s'.format(ENDTIME-STARTTIME))\n" nil tmpSourceFile t)
-                (write-region (concat "python " tmpSourceFile "\necho ------------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil tmpfile)
-                (shell-command (concat "chmod +x " tmpfile))
-                ;; (shell-command (concat "alacritty --command " tmpfile))
-                (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --command " tmpfile))
+      (let (
+        (shell "/usr/bin/fish")
+        (tmpSourceFile (expand-file-name ".my-code-run-alacritty.py"))
+        (command (concat "time python " (expand-file-name ".my-code-run-alacritty.py") " ; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'"))
         )
+        ;; (write-region "import time\nSTARTTIME=time.time()\n\n" nil tmpSourceFile)
+        (write-region "" nil tmpSourceFile)
+        (write-region nil (point-max) tmpSourceFile t)
+        ;; (write-region "\nENDTIME=time.time()\nprint('\\n\\n')\nprint('-'*30)\nprint('\033[33mTotal Time\033[0m: {}\033[33ms\033[0m'.format(ENDTIME-STARTTIME))\n" nil tmpSourceFile t)
+        (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
+        ))
+   ;; golang
+  (if (equal major-mode 'go-mode)
+      ;;   go run *.go
+      (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty -e " "/usr/bin/fish" " -c \"" (concat "go run " (file-name-directory buffer-file-name)) "/*.go"  " ; echo \n;echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'" "\""))
+    )
     ;; c language
     (if (equal major-mode 'c-mode)
         (let ( (tmpfile "/tmp/my-code-run-alacritty.sh")
@@ -141,22 +160,33 @@
           (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --command " tmpfile))
           )
                 )
-    )
 )
 
-(defun my-translator()
+
+(defun my-translator-alacritty()
   (interactive)
   (setq my-tmpV-translator-bounds (bounds-of-thing-at-point 'word))
   (setq my-tmpV-translator-pos1 (car my-tmpV-translator-bounds))
   (setq my-tmpV-translator-pos2 (cdr my-tmpV-translator-bounds))
   (setq my-tmpV-translator-mything (buffer-substring-no-properties my-tmpV-translator-pos1 my-tmpV-translator-pos2))
-  (setq my-tmpV-translator-tmpFile "/tmp/my-translator.sh")
-  (write-region (concat "echo " my-tmpV-translator-mything "\necho -----------------------------\necho\n" "ydict -v 1 -c " my-tmpV-translator-mything "\necho\necho -----------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil my-tmpV-translator-tmpFile)
-  (shell-command (concat "chmod +x " my-tmpV-translator-tmpFile))
-  ;; (shell-command (concat "alacritty --command " my-tmpV-translator-tmpFile))
-  (start-process-shell-command "my-translator" "*my-buffer*" (concat "alacritty --command " my-tmpV-translator-tmpFile))
+  (setq my-tmpV-translator-commands (concat "echo " my-tmpV-translator-mything " ; ydict -c -v 1 " my-tmpV-translator-mything " ; echo ------------------------------ ; echo [Use Ctrl-Shift-Space to toggle vi mode] ; read -P '[Press ENTER key to exit]'"))
+  (start-process-shell-command "my-translator" "*my-buffer*" (concat "alacritty -e /usr/bin/fish -c \"" my-tmpV-translator-commands "\""))
     )
 
+(defun my-code-test-file()
+  (interactive)
+  (if (equal major-mode 'python-mode)
+      ;; python mode
+      (message "[python test file]")
+      (find-file "/home/zarkli/test/1.py")
+      )
+  )
+
+(defun open-alacritty-in-folder()
+  (interactive)
+  (start-process-shell-command "open-alacritty-in-folder" "*alacritty*" (concat "alacritty --working-directory " (file-name-directory buffer-file-name))
+                               )
+  )
 
 
 (map! :n "<SPC>zh" #'my-hugo-new-file)
@@ -165,9 +195,16 @@
 (map! :n "<SPC>zyw" ":%y+")
 (map! :n "<SPC>zbe" ":%d")
 (map! :n "<SPC>zv" #'vterm-other-window)
-(map! :n "<SPC>zcc" #'my-code-run-py-interactively)
+(map! :n "<SPC>zz" #'open-alacritty-in-folder)
+;; (map! :n "<SPC>zcc" #'my-code-run-py-interactively)
 (map! :n "<SPC>zca" #'my-code-run-alacritty)
-(map! :n "<SPC>zt" #'my-translator)
+(map! :n "<SPC>zct" #'my-code-test-file)
+(map! :n "<SPC>zcc" #'conda-env-activate)
+(map! :n "<SPC>zcl" #'lsp-ui-imenu)
+(map! :n "<SPC>ztt" #'my-translator-alacritty)
+(map! :n "<SPC>zta" #'my-translator-alacritty)
+(map! :n "<SPC>zty" #'popweb-dict-youdao-pointer)
+(map! :n "<SPC>ztb" #'popweb-dict-bing-pointer)
 (map! :v "<SPC>zes" #'evil-surround-edit)
 (map! :n "<SPC>z\\" #'chunyang-toggle-frame-transparency)
 
@@ -237,6 +274,7 @@
   :config
   (which-key-add-key-based-replacements
     "<SPC>z" "mine"
+    "<SPC>zt" "translate"
     "<SPC>zc" "code"
     "<SPC>zp" "paste(clip)"
     "<SPC>zy" "copy"
@@ -255,28 +293,30 @@
 ;;   (setq go-translate-local-language "zh-CN")
 ;;   (setq go-translate-token-current (cons 430675 2721866130)))
 
-(use-package org-latex-impatient
-  :defer t
-  :hook (org-mode . org-latex-impatient-mode)
-  :init
-  (setq org-latex-impatient-tex2svg-bin
-        ;; location of tex2svg executable
-        "/home/zarkli/node_modules/mathjax-node-cli/bin/tex2svg")
-  (setq org-latex-impatient-scale 6.0))
-(use-package! asymbol
-  ;; try it out
-  ;; use ` key to pop up help window
-  ;; use ; key to pop up help window (another function)
-  :init
-  ;; a little customization
-  (setq asymbol-help-symbol-linewidth 100
-        asymbol-help-tag-linewidth 300
-        asymbol-help-tag-count 20
-        asymbol-help-symbol-count 20)
-  ;; enable in org-mode and tex-mode
-  (add-hook 'org-mode-hook #'asymbol-mode)
-  (add-hook 'tex-mode-hook #'asymbol-mode)
-)
+
+;; (use-package org-latex-impatient
+;;   :defer t
+;;   :hook (org-mode . org-latex-impatient-mode)
+;;   :init
+;;   (setq org-latex-impatient-tex2svg-bin
+;;         ;; location of tex2svg executable
+;;         "/home/zarkli/node_modules/mathjax-node-cli/bin/tex2svg")
+;;   (setq org-latex-impatient-scale 6.0))
+;; (use-package! asymbol
+;;   ;; try it out
+;;   ;; use ` key to pop up help window
+;;   ;; use ; key to pop up help window (another function)
+;;   :init
+;;   ;; a little customization
+;;   (setq asymbol-help-symbol-linewidth 100
+;;         asymbol-help-tag-linewidth 300
+;;         asymbol-help-tag-count 20
+;;         asymbol-help-symbol-count 20)
+;;   ;; enable in org-mode and tex-mode
+;;   (add-hook 'org-mode-hook #'asymbol-mode)
+;;   (add-hook 'tex-mode-hook #'asymbol-mode)
+;; )
+
 
 (after! org
   (add-to-list 'org-capture-templates
@@ -291,3 +331,7 @@
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 5.0))
 )
 (set-company-backend! 'org-mode '(company-math-symbols-latex company-latex-commands company-yasnippet company-dabbrev))
+
+(add-hook! 'python-mode-hook #'rainbow-delimiters-mode)
+
+

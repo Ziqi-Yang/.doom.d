@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: np-pd-plt
+# key: znp
+# condition: t
+# --
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+$0
