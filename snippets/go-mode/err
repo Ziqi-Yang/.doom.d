@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: err
+# key: panerr
+# condition: t
+# --
+if err != nil{
+   panic(err)
+}$0
