@@ -118,7 +118,7 @@
         (let ((shell "/usr/bin/fish")
               (tmpExecutefile "/tmp/my-code-run-cpp-alacritty")
                (tmpSourceFile (expand-file-name ".my-code-run-alacritty.cpp"))
-               (command (concat "clang++ " (expand-file-name ".my-code-run-alacritty.cpp") " -o  /tmp/my-code-run-cpp-alacritty && time /tmp/my-code-run-cpp-alacritty; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'")))
+               (command (concat "clang++ " (expand-file-name ".my-code-run-alacritty.cpp") " -fsanitize=undefined -o  /tmp/my-code-run-cpp-alacritty && time /tmp/my-code-run-cpp-alacritty; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'")))
                 (write-region "" nil tmpSourceFile)
                 (write-region nil (point-max) tmpSourceFile)
                 ;; (shell-command (concat "alacritty --command " tmpfile))
@@ -174,10 +174,12 @@
   "ct" #'my-code-test-file
   "cc" #'conda-env-activate
   "cl" #'lsp-ui-imenu
+
   "tt" #'my-translator-alacritty
   "ta" #'my-translator-alacritty
   "ty" #'popweb-dict-youdao-pointer
   "tb" #'popweb-dict-bing-pointer
+
 
   :v
   "yy" "\"+y"
@@ -200,7 +202,8 @@
     "<SPC>zo" "org"
     "<SPC>zo" "my-org-map"
     "<SPC>zop" "reveal.js"
-    "<SPC>zol" "latex"))
+    "<SPC>zol" "latex"
+    ))
 
 
 
