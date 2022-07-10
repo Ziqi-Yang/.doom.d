@@ -14,6 +14,8 @@
       ;; + `doom-variable-pitch-font'
       ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
       )
+
+
 (add-hook 'window-setup-hook 'toggle-frame-fullscreen t) ;; frameless
 ;; (setq initial-frame-alist (quote ((fullscreen . maximized))))
 ;; (add-hook 'window-setup-hook 'toggle-frame-maximized t)
@@ -64,11 +66,11 @@
 (setq company-idle-delay 0.2) ;; 自动补全延迟时间
 
 (plist-put! +ligatures-extra-symbols
-  :true          "✓"
-  :false         "✗"
-  :str           "⟆"
-  :list          "⧻"
-)
+            :true          "✓"
+            :false         "✗"
+            :str           "⟆"
+            :list          "⧻"
+            )
 
 (add-hook 'org-mode-hook 'org-hide-block-all) ;; hide code/quote/... blocks
 (after! ispell (setq ispell-alternate-dictionary "~/.doom.d/ispell/english-words.txt"))
@@ -87,45 +89,33 @@
   (if (equal major-mode 'python-mode)
       ;; python language
       (let (
-        (shell "/usr/bin/fish")
-        (tmpSourceFile (expand-file-name ".my-code-run-alacritty.py"))
-        (command (concat "time python " (expand-file-name ".my-code-run-alacritty.py") " ; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'"))
-        )
+            (shell "/usr/bin/fish")
+            (tmpSourceFile (expand-file-name ".my-code-run-alacritty.py"))
+            (command (concat "time python " (expand-file-name ".my-code-run-alacritty.py") " ; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'"))
+            )
         ;; (write-region "import time\nSTARTTIME=time.time()\n\n" nil tmpSourceFile)
         (write-region "" nil tmpSourceFile)
         (write-region nil (point-max) tmpSourceFile t)
         ;; (write-region "\nENDTIME=time.time()\nprint('\\n\\n')\nprint('-'*30)\nprint('\033[33mTotal Time\033[0m: {}\033[33ms\033[0m'.format(ENDTIME-STARTTIME))\n" nil tmpSourceFile t)
         (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
         ))
-   ;; golang
+  ;; golang
   (if (equal major-mode 'go-mode)
       ;;   go run *.go
       (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty -e " "/usr/bin/fish" " -c \"" (concat "go run " (file-name-directory buffer-file-name)) "/*.go"  " ; echo \n;echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'" "\""))
     )
-    ;; c language
-    (if (equal major-mode 'c-mode)
-        (let ( (tmpfile "/tmp/my-code-run-alacritty.sh")
-               (tmpExecutefile "/tmp/my-code-run-py-alacritty")
-               (tmpSourceFile "/tmp/my-code-run-alacritty.c"))
-          (write-region nil (point-max) tmpSourceFile)
-          (write-region (concat "clang " tmpSourceFile " -o " tmpExecutefile " -fcolor-diagnostics\n" tmpExecutefile "\necho\necho -----------------------------\necho [Use Ctrl-Shift-Space to toggle vi mode]\nread -p \"[Press ENTER key to exit]\"\n") nil tmpfile)
-          (shell-command (concat "chmod +x " tmpfile))
-          ;; (shell-command (concat "alacritty --command " tmpfile))
-          (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --command " tmpfile))
-          )
-                )
-    (if (equal major-mode 'c++-mode)
-        (let ((shell "/usr/bin/fish")
-              (tmpExecutefile "/tmp/my-code-run-cpp-alacritty")
-               (tmpSourceFile (expand-file-name ".my-code-run-alacritty.cpp"))
-               (command (concat "clang++ " (expand-file-name ".my-code-run-alacritty.cpp") " -fsanitize=undefined -o  /tmp/my-code-run-cpp-alacritty && time /tmp/my-code-run-cpp-alacritty; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'")))
-                (write-region "" nil tmpSourceFile)
-                (write-region nil (point-max) tmpSourceFile)
-                ;; (shell-command (concat "alacritty --command " tmpfile))
-                (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
-                        )
-      )
-)
+  (if (equal major-mode 'c++-mode)
+      (let ((shell "/usr/bin/fish")
+            (tmpExecutefile "/tmp/my-code-run-cpp-alacritty")
+            (tmpSourceFile (expand-file-name ".my-code-run-alacritty.cpp"))
+            (command (concat "clang++ " (expand-file-name ".my-code-run-alacritty.cpp") " -fsanitize=undefined -o  /tmp/my-code-run-cpp-alacritty && time /tmp/my-code-run-cpp-alacritty; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'")))
+        (write-region "" nil tmpSourceFile)
+        (write-region nil (point-max) tmpSourceFile)
+        ;; (shell-command (concat "alacritty --command " tmpfile))
+        (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
+        )
+    )
+  )
 
 
 (defun my-translator-alacritty()
@@ -136,15 +126,15 @@
   (setq my-tmpV-translator-mything (buffer-substring-no-properties my-tmpV-translator-pos1 my-tmpV-translator-pos2))
   (setq my-tmpV-translator-commands (concat "echo " my-tmpV-translator-mything " ; ydict -c -v 1 " my-tmpV-translator-mything " ; echo ------------------------------ ; echo [Use Ctrl-Shift-Space to toggle vi mode] ; read -P '[Press ENTER key to exit]'"))
   (start-process-shell-command "my-translator" "*my-buffer*" (concat "alacritty -e /usr/bin/fish -c \"" my-tmpV-translator-commands "\""))
-    )
+  )
 
 (defun my-code-test-file()
   (interactive)
   (if (equal major-mode 'python-mode)
       ;; python mode
       (message "[python test file]")
-      (find-file "/home/zarkli/test/1.py")
-      )
+    (find-file "/home/zarkli/test/1.py")
+    )
   )
 
 (defun open-alacritty-in-folder()
@@ -157,53 +147,43 @@
 (map!
  (:after org
   :leader
-  (:prefix "z"
-  :n "oh" #'my-org-hight-math-keywords))
-  ;; :n "qweqweq" "asdasda"
+  (:prefix ("zo" . "org")
+   :n "h" #'my-org-hight-math-keywords))
+ ;; :n "qweqweq" "asdasda"
  :leader
- (:prefix "z"
-  :n
-  "p" "\"+P"
-  "yw" ":%y+"
-  "be" ":%d"
-  "\\" #'chunyang-toggle-frame-transparency
-  "v" #'vterm-other-window
-  "z" #'open-alacritty-in-folder
+ (:prefix ("z" . "mine")
+  :desc "paste(clip)"              :n  "p"     "\"+P"
+  :desc "copy(clip)"               :v  "yy"    "\"+y"
+  :desc "toggle-trans"             :n  "\\"    #'chunyang-toggle-frame-transparency
+  :n "v"  #'vterm-other-window
+  :n "z"  #'open-alacritty-in-folder
+
+  :prefix ("zb" . "buffer")
+  :desc "erase-whole-buffer"      :n   "e"     ":%d"
+
+  :prefix ("zy" . "copy")
+  :desc "copy-whole-buffer"        :n   "w"    ":%y+"
+
+  :prefix ("zc" . "code")
   ;; cc #'my-code-run-py-interactively
-  "ca" #'my-code-run-alacritty
-  "ct" #'my-code-test-file
-  "cc" #'conda-env-activate
-  "cl" #'lsp-ui-imenu
+  :n "a" #'my-code-run-alacritty
+  :n "t" #'my-code-test-file
+  :n "c" #'conda-env-activate
+  :n "l" #'lsp-ui-imenu
 
-  "tt" #'my-translator-alacritty
-  "ta" #'my-translator-alacritty
-  "ty" #'popweb-dict-youdao-pointer
-  "tb" #'popweb-dict-bing-pointer
+  :prefix ("zt" . "toggle")
+  :n "t" #'my-translator-alacritty
+  :n "a" #'my-translator-alacritty
+  :n "y" #'popweb-dict-youdao-pointer
+  :n "b" #'popweb-dict-bing-pointer
+  ))
 
 
-  :v
-  "yy" "\"+y"
-  "es" #'evil-surround-edit
-))
-
-(use-package! which-key
-  :config
-  (which-key-add-key-based-replacements
-    "<SPC>z" "mine"
-    "<SPC>zt" "translate"
-    "<SPC>zc" "code"
-    "<SPC>zp" "paste(clip)"
-    "<SPC>zy" "copy"
-    "<SPC>zyy" "copy(clip)"
-    "<SPC>zyw" "copy-whole-buffer(clip)"
-    "<SPC>zb" "buffer"
-    "<SPC>zbe" "erase-buffer"
-    "<SPC>ze" "evil"
-    "<SPC>zo" "org"
-    "<SPC>zo" "my-org-map"
-    "<SPC>zop" "reveal.js"
-    "<SPC>zol" "latex"
-    ))
+;; (use-package! which-key
+;;   :config
+;;   (which-key-add-key-based-replacements
+;;     "<SPC>z" "mine"
+;;     ))
 
 
 
@@ -218,3 +198,37 @@
                                 "--header-insertion=never"
                                 "--header-insertion-decorators=0"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
+
+;; debug
+(after! dap-mode
+  (setq dap-python-debugger 'debugpy))
+(map! :map dap-mode-map
+      :leader
+      :prefix ("d" . "dap")
+      ;; basics
+      :desc "dap next"          "n" #'dap-next
+      :desc "dap step in"       "i" #'dap-step-in
+      :desc "dap step out"      "o" #'dap-step-out
+      :desc "dap continue"      "c" #'dap-continue
+      :desc "dap hydra"         "h" #'dap-hydra
+      :desc "dap debug restart" "r" #'dap-debug-restart
+      :desc "dap debug"         "s" #'dap-debug
+
+      ;; debug
+      :prefix ("dd" . "Debug")
+      :desc "dap debug recent"  "r" #'dap-debug-recent
+      :desc "dap debug last"    "l" #'dap-debug-last
+
+      ;; eval
+      :prefix ("de" . "Eval")
+      :desc "eval"                "e" #'dap-eval
+      :desc "eval region"         "r" #'dap-eval-region
+      :desc "eval thing at point" "s" #'dap-eval-thing-at-point
+      :desc "add expression"      "a" #'dap-ui-expressions-add
+      :desc "remove expression"   "d" #'dap-ui-expressions-remove
+
+      :prefix ("db" . "Breakpoint")
+      :desc "dap breakpoint toggle"      "b" #'dap-breakpoint-toggle
+      :desc "dap breakpoint condition"   "c" #'dap-breakpoint-condition
+      :desc "dap breakpoint hit count"   "h" #'dap-breakpoint-hit-condition
+      :desc "dap breakpoint log message" "l" #'dap-breakpoint-log-message)
