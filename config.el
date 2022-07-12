@@ -143,6 +143,21 @@
                                )
   )
 
+(defun debug-cpp ()
+  "compile file && debug cpp"
+  (interactive)
+  (start-process-shell-command "gdb-debug-cpp" "*my-buffer*" (concat "clang++ " (buffer-file-name) " -g -fsanitize=undefined -o " (file-name-directory (buffer-file-name)) "cppdebug" ))
+  (call-interactively 'dap-debug)
+  ;; (shell-command "rm cppdebug") ;; error
+  )
+
+(defun debug-cpp-clean ()
+  "clean the compiled file"
+  (interactive)
+  ;; (shell-command "rm cppdebug")
+  (start-process-shell-command "gdb-debug-cpp-clean" "*my-buffer*" "rm cppdebug")
+  )
+
 ;; Key Settings
 (map!
  (:after org
@@ -176,8 +191,11 @@
   :n "a" #'my-translator-alacritty
   :n "y" #'popweb-dict-youdao-pointer
   :n "b" #'popweb-dict-bing-pointer
-  ))
 
+  :prefix ("zd" . "debug")
+  :n "d" #'debug-cpp
+  :n "c" #'debug-cpp-clean
+  ))
 
 ;; (use-package! which-key
 ;;   :config
@@ -202,6 +220,7 @@
 ;; debug
 (after! dap-mode
   (setq dap-python-debugger 'debugpy))
+
 (map! :map dap-mode-map
       :leader
       :prefix ("d" . "dap")
@@ -213,6 +232,7 @@
       :desc "dap hydra"         "h" #'dap-hydra
       :desc "dap debug restart" "r" #'dap-debug-restart
       :desc "dap debug"         "s" #'dap-debug
+      :desc "other-debuggers"   "x" #'+debugger/start
 
       ;; debug
       :prefix ("dd" . "Debug")
