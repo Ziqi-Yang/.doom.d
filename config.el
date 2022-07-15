@@ -237,7 +237,6 @@
       :desc "dap debug"         "s" #'dap-debug
       ;; my configuration
       :desc "other debuggers"   "x" #'+debugger/start
-      :desc "quit debug"        "q" #'dap-hydra/dap-disconnect
 
       ;; debug
       :prefix ("dd" . "Debug")
