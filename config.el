@@ -5,11 +5,14 @@
 ;;NOTE the default note lines are removed, but they can be viewed by using git
 (setq user-full-name "Leonardo Zarkli"
       user-mail-address "ziqi-yang@gmail.com")
-
-;; (setq doom-theme 'doom-gruvbox-light)
-;; (setq doom-theme 'doom-gruvbox)
+;; Theme Recommendations:
+;; light-theme:
+;;      doom-solarized-light doom-grubbox-light
+;;      特色: doom-fairy-floss doom-flatwhite
+;; dark-theme:
+;;      doom-material doom-dracula doom-gruvbox doom-one
 ;; (setq doom-theme 'doom-one)
-(setq doom-theme 'doom-gruvbox
+(setq doom-theme 'doom-flatwhite
       doom-font (font-spec :family "Fira Code" :size 40) ;; :wight light
       ;; + `doom-variable-pitch-font'
       ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
@@ -232,7 +235,9 @@
       :desc "dap hydra"         "h" #'dap-hydra
       :desc "dap debug restart" "r" #'dap-debug-restart
       :desc "dap debug"         "s" #'dap-debug
-      :desc "other-debuggers"   "x" #'+debugger/start
+      ;; my configuration
+      :desc "other debuggers"   "x" #'+debugger/start
+      :desc "quit debug"        "q" #'dap-hydra/dap-disconnect
 
       ;; debug
       :prefix ("dd" . "Debug")
