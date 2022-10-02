@@ -1,0 +1,34 @@
+#+title: Installation
+
+** git proxy (optional)
+this configuration make sure yout network connection is guranteed
+#+begin_src bash
+git config --global https.proxy http://127.0.0.1:1080
+git config --global https.proxy https://127.0.0.1:1080
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+#+end_src
+** Prerequestments
+*** basic
+#+begin_src bash
+sudo pacman -S ripgrap fd emacs-nativecomp
+yay -S nerd-fonts-fira-code
+#+end_src
+*** others
+#+begin_src bash
+sudo pacman -S libvterm make cmake
+# :check
+sudo pacman -S aspell aspell-en # spell
+sudo pacman -S languagetool # grammer
+# :tools
+#
+pip install pyright pytest nose black pyflakes isort # python(lsp)
+#+end_src
+** doom installation
+#+begin_src bash
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
+~/.emacs.d/bin/doom install
+#+end_src
+
+** TODO
+spell check configuration
