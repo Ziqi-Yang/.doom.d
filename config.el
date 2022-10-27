@@ -10,6 +10,8 @@
 ;; dark-theme:
 ;;      doom-material doom-dracula doom-gruvbox doom-one
 ;; (setq doom-theme 'doom-one)
+(setq-default
+  tab-width 2)
 (setq doom-theme 'doom-flatwhite
       doom-font (font-spec :family "FiraCode Nerd Font" :size 34) ;; :wight light
       ;; + `doom-variable-pitch-font'
@@ -51,6 +53,14 @@
   :n "a" #'my-code-run-alacritty
   :n "l" #'lsp-ui-imenu
   ))
+
+(map!
+ :mode web-mode
+ :localleader
+ :n "s" #'live-web-start
+ :n "k" #'live-web-kill
+ :n "l" #'live-web-toggle
+ )
 
 
 (load! "lisp/functions.el")

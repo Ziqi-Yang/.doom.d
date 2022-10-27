@@ -8,6 +8,36 @@
       (set-frame-parameter nil 'alpha 100)
     (set-frame-parameter nil 'alpha 75)))
 
+
+(defun live-web-start()
+  "Start live web server process using browser-sync."
+  (interactive)
+  (condition-case nil
+    (delete-process "live-web")
+    (error nil))
+  (start-process-shell-command "live-web"
+    "*my-buffer*"
+    "browser-sync start --server --files '*.html,*.css,*.js'")
+  (message "live web start")
+  )
+
+(defun live-web-kill()
+  "End live web server process."
+  (interactive)
+  (condition-case nil
+    (delete-process "live-web")
+    (error nil))
+  (message "live web killed")
+  )
+
+(defun live-web-toggle()
+  "Toggle live web"
+  (interactive)
+  (if (get-process "live-web")
+      (live-web-kill)
+    (live-web-start))
+  )
+
 (defun my-code-run-alacritty()
   "Run code in external terminal(alacritty)."
   (interactive)
@@ -50,6 +80,9 @@
         ;; (shell-command (concat "alacritty --command " tmpfile))
         (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --class fullscreen -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
         )
+    )
+  (if (equal major-mode 'web-mode)
+      (live-web-start)
     )
 )
 
