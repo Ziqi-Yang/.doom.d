@@ -12,12 +12,19 @@
 (defun live-web-start()
   "Start live web server process using browser-sync."
   (interactive)
+
   (condition-case nil
     (delete-process "live-web")
     (error nil))
-  (start-process-shell-command "live-web"
-    "*my-buffer*"
-    "browser-sync start --server --files '*.html,*.css,*.js'")
+
+  (if (projectile-project-p) ;;; start browser-sync in the project root if in a project
+    (start-process-shell-command "live-web"
+      "*my-buffer*"
+      (concat "browser-sync start --server " (projectile-project-p) " --files '*.html,*.css,*.js,**/*.html,**/*.css,**/*.js'"))
+    (start-process-shell-command "live-web"
+      "*my-buffer*"
+      "browser-sync start --server --files '*.html,*.css,*.js,**/*.html,**/*.css,**/*.js'"))
+
   (message "live web start")
   )
 
@@ -82,6 +89,9 @@
         )
     )
   (if (equal major-mode 'web-mode)
+      (live-web-start)
+    )
+  (if (equal major-mode 'css-mode)
       (live-web-start)
     )
 )

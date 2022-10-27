@@ -13,6 +13,10 @@ git config --global https.proxy https://127.0.0.1:7890
 #+begin_src bash
 sudo pacman -S ripgrap fd emacs-nativecomp
 yay -S nerd-fonts-fira-code
+
+npm install -g browser-sync # live web preview
+
+sudo pacman -S texlab # lsp latex
 #+end_src
 *** others
 #+begin_src bash
@@ -29,12 +33,6 @@ pip install pyright pytest nose black pyflakes isort # python(lsp)
 git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 #+end_src
-
-** live web preview:
-use [browsersync](https://browsersync.io/)
-```bash
-browser-sync start --server --files "*.html,*.css,*.js"
-```
 
 ** TODO
 spell check configuration
