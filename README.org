@@ -30,5 +30,11 @@ git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 #+end_src
 
+** live web preview:
+use [browsersync](https://browsersync.io/)
+```bash
+browser-sync start --server --files "*.html,*.css,*.js"
+```
+
 ** TODO
 spell check configuration
