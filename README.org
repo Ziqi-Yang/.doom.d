@@ -3,7 +3,7 @@
 ** git proxy (optional)
 this configuration make sure yout network connection is guranteed
 #+begin_src bash
-git config --global https.proxy http://127.0.0.1:7890
+git config --global http.proxy http://127.0.0.1:7890
 git config --global https.proxy https://127.0.0.1:7890
 # git config --global --unset http.proxy
 # git config --global --unset https.proxy
@@ -13,6 +13,9 @@ git config --global https.proxy https://127.0.0.1:7890
 #+begin_src bash
 sudo pacman -S ripgrap fd emacs-nativecomp
 yay -S nerd-fonts-fira-code
+
+sudo pacman -S sqlite ripgrep # :lookup
+yay -S wordnet-cli
 
 npm install -g browser-sync # live web preview
 

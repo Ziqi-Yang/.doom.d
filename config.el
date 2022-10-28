@@ -54,6 +54,11 @@
   ))
 
 (map!
+ :leader
+ :n "o=" #'project-dired
+ )
+
+(map!
  :mode web-mode
  :localleader
  :n "s" #'live-web-start
