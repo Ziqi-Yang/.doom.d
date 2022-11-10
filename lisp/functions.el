@@ -4,9 +4,9 @@
 (defun chunyang-toggle-frame-transparency ()
   "Toggle the Emacs window opacity."
   (interactive)
-  (if (equal (frame-parameter nil 'alpha) 75)
+  (if (equal (frame-parameter nil 'alpha) 90)
       (set-frame-parameter nil 'alpha 100)
-    (set-frame-parameter nil 'alpha 75)))
+    (set-frame-parameter nil 'alpha 90)))
 
 
 (defun live-web-start()
@@ -109,13 +109,14 @@
   (start-process-shell-command "my-translator" "*my-buffer*" (concat "alacritty --class floating -e /usr/bin/fish -c \"" my-tmpV-translator-commands "\""))
   )
 
-(defun open-alacritty-in-folder()
+(defun open-alacritty()
   "Open alacritty terminal at the current folder."
   (interactive)
-  (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
-        (concat "alacritty --working-directory " (file-name-directory buffer-file-name) )
-        )
-  )
+  (if (projectile-project-p) ;;; start browser-sync in the project root if in a project
+    (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
+        (concat "alacritty --working-directory " (projectile-project-p) ))
+    (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
+        (concat "alacritty --working-directory " (file-name-directory buffer-file-name) )) ))
 
 
 

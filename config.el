@@ -12,7 +12,7 @@
 ;; (setq doom-theme 'doom-one)
 (setq-default
   tab-width 2)
-(setq doom-theme 'doom-flatwhite
+(setq doom-theme 'doom-solarized-light
       doom-font (font-spec :family "FiraCode Nerd Font" :size 34) ;; :wight light
       ;; + `doom-variable-pitch-font'
       ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
@@ -41,8 +41,9 @@
  (:prefix ("z" . "mine")
   :desc "toggle-trans"             :n  "\\"    #'chunyang-toggle-frame-transparency
   :n "v"  #'vterm-other-window
-  :n "z"  #'open-alacritty-in-folder
+  :n "z"  #'open-alacritty
   :n "t" #'my-translator-alacritty
+
 
   :prefix ("zb" . "buffer")
   :desc "erase-whole-buffer"      :n   "e"     ":%d"
@@ -51,6 +52,13 @@
   ;; cc #'my-code-run-py-interactively
   :n "a" #'my-code-run-alacritty
   :n "l" #'lsp-ui-imenu
+  :n "h" #'lsp-treemacs-call-hierarchy
+  :n "x" #'lsp-treemacs-errors-list
+  :n "m" #'+make/run
+  :n "n" #'+make/run-last
+
+  :prefix ("zl" . "lisp manage")
+  :n "r"  #'lsp-workspace-folders-remove
   ))
 
 (map!
@@ -80,3 +88,5 @@
 
 
 (load! "lisp/functions.el")
+
+(global-wakatime-mode)

@@ -14,6 +14,8 @@ git config --global https.proxy https://127.0.0.1:7890
 sudo pacman -S ripgrap fd emacs-nativecomp
 yay -S nerd-fonts-fira-code
 
+sudo pacman -S wakatime # custom wakatime-mode package need
+
 sudo pacman -S sqlite ripgrep # :lookup
 yay -S wordnet-cli
 
