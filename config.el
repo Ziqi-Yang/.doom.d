@@ -33,7 +33,14 @@
       which-key-idle-delay 0.5
 
       fancy-splash-image "/home/zarkli/.doom.d/assets/avatar_300-300.png"
+
+      company-minimum-prefix-length 1
+      company-idle-delay 0
       )
+
+(after! lsp-ui
+  (setq lsp-ui-sideline-diagnostic-max-lines 2))
+
 
 ;; Key Settings
 (map!
@@ -51,11 +58,15 @@
   :prefix ("zc" . "code")
   ;; cc #'my-code-run-py-interactively
   :n "a" #'my-code-run-alacritty
-  :n "l" #'lsp-ui-imenu
+  :n "l" #'lsp-ui-imenu ;; show symbols in the side (try lsp-treemace-symbols also, but it needsd some time to show up)
+  :n "s" #'lsp-treemacs-symbols
   :n "h" #'lsp-treemacs-call-hierarchy
-  :n "x" #'lsp-treemacs-errors-list
+  :n "x" #'flycheck-explain-error-at-point ;; enable this mode when error msg is too long (or try flycheck-popup-tip-mode)
+  :n "X" #'lsp-treemacs-errors-list
+
   :n "m" #'+make/run
   :n "n" #'+make/run-last
+
 
   :prefix ("zl" . "lisp manage")
   :n "r"  #'lsp-workspace-folders-remove
