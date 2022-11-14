@@ -1,16 +1,18 @@
 #+title: Installation
 
-** git proxy (optional)
-this configuration make sure yout network connection is guranteed
+** Git proxy (optional)
+this configuration make sure your network connection is guranteed
 #+begin_src bash
 git config --global http.proxy http://127.0.0.1:7890
 git config --global https.proxy https://127.0.0.1:7890
 # git config --global --unset http.proxy
 # git config --global --unset https.proxy
 #+end_src
-** Prerequestments
+** Requirements
 *** basic
 #+begin_src bash
+paru -S ttf-lxgw-wenkai # install chinese font
+paru -S ltex-ls-bin  # lsp-ltex
 sudo pacman -S ripgrap fd emacs-nativecomp
 yay -S nerd-fonts-fira-code
 
@@ -22,17 +24,22 @@ yay -S wordnet-cli
 npm install -g browser-sync # live web preview
 
 sudo pacman -S texlab # lsp latex
+
+sudo pacman -S pandoc
 #+end_src
 *** others
 #+begin_src bash
 sudo pacman -S libvterm make cmake
 # :check
-sudo pacman -S aspell aspell-en # spell
-sudo pacman -S languagetool # grammer
+sudo pacman -S hunspell hunspell-en_us # spell
+# sudo pacman -S languagetool # grammer (user experience is not very good)
 # :tools
 #
 pip install pyright pytest nose black pyflakes isort # python(lsp)
 #+end_src
+
+#+RESULTS:
+
 ** doom installation
 #+begin_src bash
 git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d

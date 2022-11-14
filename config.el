@@ -13,10 +13,10 @@
 (setq-default
   tab-width 2)
 (setq doom-theme 'doom-solarized-light
-      doom-font (font-spec :family "FiraCode Nerd Font" :size 34) ;; :wight light
-      ;; + `doom-variable-pitch-font'
+      doom-font (font-spec :family "FiraCode Nerd Font" :size 34) ;; :weight 'light
+      doom-unicode-font (font-spec :family "LXGW WenKai" :size 34 :weight 'bold)
+      ;; doom-variable-pitch-font (font-spec :family "LXGW WenKai" :size 34)
       ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
-      ;; fancy-splash-image "/home/zarkli/.doom.d/resources/2_mod.png"
       display-line-numbers-type t ;; nil, 'relaive
       org-directory "~/org/"
 
@@ -36,10 +36,33 @@
 
       company-minimum-prefix-length 1
       company-idle-delay 0
+
+      ;; increase lsp performance
+      ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
+      read-process-output-max (* 3 1024 1024) ;; 3 mb, doom emacs default is 1 mb
+      lsp-idle-delay 0.250
       )
+
+(use-package! lsp-ltex
+  :ensure t
+  :hook (text-mode . (lambda ()
+                       (require 'lsp-ltex)
+                       (lsp)))  ; or lsp-deferred
+)
+
+
 
 (after! lsp-ui
   (setq lsp-ui-sideline-diagnostic-max-lines 2))
+
+(use-package! ranger
+    :config (setq ranger-override-dired 'ranger))
+
+(add-hook! text-mode
+  (lambda ()
+    (require 'lsp-grammarly)
+    (lsp))
+  )
 
 
 ;; Key Settings

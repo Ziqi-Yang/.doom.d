@@ -14,16 +14,16 @@
   (interactive)
 
   (condition-case nil
-    (delete-process "live-web")
+      (delete-process "live-web")
     (error nil))
 
   (if (projectile-project-p) ;;; start browser-sync in the project root if in a project
+      (start-process-shell-command "live-web"
+                                   "*my-buffer*"
+                                   (concat "browser-sync start --server " (projectile-project-p) " --files '*.html,*.css,*.js,**/*.html,**/*.css,**/*.js'"))
     (start-process-shell-command "live-web"
-      "*my-buffer*"
-      (concat "browser-sync start --server " (projectile-project-p) " --files '*.html,*.css,*.js,**/*.html,**/*.css,**/*.js'"))
-    (start-process-shell-command "live-web"
-      "*my-buffer*"
-      "browser-sync start --server --files '*.html,*.css,*.js,**/*.html,**/*.css,**/*.js'"))
+                                 "*my-buffer*"
+                                 "browser-sync start --server --files '*.html,*.css,*.js,**/*.html,**/*.css,**/*.js'"))
 
   (message "live web start")
   )
@@ -32,7 +32,7 @@
   "End live web server process."
   (interactive)
   (condition-case nil
-    (delete-process "live-web")
+      (delete-process "live-web")
     (error nil))
   (message "live web killed")
   )
@@ -50,11 +50,11 @@
   (interactive)
   (if (equal major-mode 'python-mode)
       ;; python language
-      (let (
-            (shell "/usr/bin/fish")
-            (tmpSourceFile (expand-file-name ".my-code-run-alacritty.py"))
-            (command (concat "time python " (expand-file-name ".my-code-run-alacritty.py") " ; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'"))
-            )
+      (let
+        ((shell "/usr/bin/fish")
+          (tmpSourceFile (expand-file-name ".my-code-run-alacritty.py"))
+          (command (concat "time python " (expand-file-name ".my-code-run-alacritty.py") " ; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'"))
+          )
         ;; (write-region "import time\nSTARTTIME=time.time()\n\n" nil tmpSourceFile)
         (write-region "" nil tmpSourceFile)
         (write-region nil (point-max) tmpSourceFile t)
@@ -89,12 +89,10 @@
         )
     )
   (if (equal major-mode 'web-mode)
-      (live-web-start)
-    )
+      (live-web-start))
   (if (equal major-mode 'css-mode)
-      (live-web-start)
-    )
-)
+      (live-web-start))
+  )
 
 
 
@@ -113,10 +111,10 @@
   "Open alacritty terminal at the current folder."
   (interactive)
   (if (projectile-project-p) ;;; start browser-sync in the project root if in a project
+      (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
+                                   (concat "alacritty --working-directory " (projectile-project-p) ))
     (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
-        (concat "alacritty --working-directory " (projectile-project-p) ))
-    (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
-        (concat "alacritty --working-directory " (file-name-directory buffer-file-name) )) ))
+                                 (concat "alacritty --working-directory " (file-name-directory buffer-file-name) )) ))
 
 
 

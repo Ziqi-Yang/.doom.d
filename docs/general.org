@@ -1,0 +1,4 @@
+#+title: General
+
+* Spell Check
+use it with =(lookup +dictionary)=, hit =<SPC>st= when over a misspelling word. It will give you the most likely original english word.
