@@ -14,7 +14,7 @@ git config --global https.proxy https://127.0.0.1:7890
 paru -S ttf-lxgw-wenkai # install chinese font
 paru -S ltex-ls-bin  # lsp-ltex
 sudo pacman -S ripgrap fd emacs-nativecomp
-yay -S nerd-fonts-fira-code
+paru ttf-firacode-nerd
 
 sudo pacman -S wakatime # custom wakatime-mode package need
 
@@ -25,7 +25,7 @@ npm install -g browser-sync # live web preview
 
 sudo pacman -S texlab # lsp latex
 
-sudo pacman -S pandoc
+sudo pacman -S pandoc # org export
 #+end_src
 *** others
 #+begin_src bash
@@ -36,6 +36,27 @@ sudo pacman -S hunspell hunspell-en_us # spell
 # :tools
 #
 pip install pyright pytest nose black pyflakes isort # python(lsp)
+
+# rust
+rustup component add rustfmt-preview
+cargo install cargo-check
+rustup component add clippy-preview
+paru -S rust-analyzer
+# debug need debugger module and dap-cpptools
+
+# c/cpp
+paru -S clang ccls cmake
+pip install cmake-language-server --user
+paru rtags-git
+
+# debug
+paru -S lldb lldb-mi-git gdb unzip
+pip3 install ptvsd --user # debug python
+pip3 install debugpy --user # debug python
+# 'lldb run configuration' possibily appears only enable cc module in init.el
+# first time run: M-x dap-gdb-lldb-setup
+# first time run: M-x dap-cpptools-setup (need proxy: run emacs with proxychains,
+# or set proxy environment variable(haven't try env))
 #+end_src
 
 #+RESULTS:
