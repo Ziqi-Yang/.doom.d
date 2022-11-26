@@ -1,14 +1,18 @@
 ;;; lisp/mapping.el -*- lexical-binding: t; -*-
 ;;; Key Settings
+
+(map!
+  :i "C-S-v" 'clipboard-yank)
+
 (map!
  :leader
  :n "o=" #'project-dired
  (:prefix ("z" . "mine")
   :desc "toggle-trans"             :n  "\\"    #'chunyang-toggle-frame-transparency
   :n "v"  #'vterm-other-window
-  :n "z"  #'open-alacritty
+  :n "a"  #'open-alacritty
   :n "t" #'my-translator-alacritty
-
+  :n "z" #'reload-theme-according-ui
 
   :prefix ("zb" . "buffer")
   :desc "erase-whole-buffer"      :n   "e"     ":%d"
@@ -25,10 +29,14 @@
   :n "m" #'+make/run
   :n "n" #'+make/run-last
 
-
   :prefix ("zl" . "lisp manage")
-  :n "r"  #'lsp-workspace-folders-remove)
-  :n "l"  #'lsp-lens-show)
+  :n "r"  #'lsp-workspace-folders-remove
+  :n "l"  #'lsp-lens-show
+
+  :prefix ("zn" . "nyan cat")
+  :n "s"  #'nyan-start-music
+  :n "p"  #'nyan-stop-music
+   ))
 
 
 (map! ;; live web

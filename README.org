@@ -49,6 +49,9 @@ paru -S clang ccls cmake
 pip install cmake-language-server --user
 paru rtags-git
 
+# sh
+paru -S shellcheck bash-language-serve bashdb
+
 # debug
 paru -S lldb lldb-mi-git gdb unzip
 pip3 install ptvsd --user # debug python
@@ -57,15 +60,20 @@ pip3 install debugpy --user # debug python
 # first time run: M-x dap-gdb-lldb-setup
 # first time run: M-x dap-cpptools-setup (need proxy: run emacs with proxychains,
 # or set proxy environment variable(haven't try env))
+
 #+end_src
 
 #+RESULTS:
 
 ** doom installation
+1. install doom(don't place this =.doom.d= directory before installation, otherwise there may be some problem for =lsp=)
+
 #+begin_src bash
 git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 #+end_src
+
+2. replace the generated =.doom.d= directory with this config directory
 
 ** TODO
 spell check configuration

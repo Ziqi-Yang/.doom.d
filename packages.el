@@ -52,3 +52,4 @@
 (package! wakatime-mode)
 (package! lsp-ltex)
 (package! yuck-mode)
+(package! nyan-mode)

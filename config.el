@@ -15,8 +15,6 @@
 (setq doom-theme 'doom-solarized-light
       doom-font (font-spec :family "FiraCode Nerd Font" :size 34) ;; :weight 'light
       doom-unicode-font (font-spec :family "LXGW WenKai" :size 34)
-      ;; doom-variable-pitch-font (font-spec :family "LXGW WenKai" :size 34)
-      ;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
       display-line-numbers-type t ;; nil, 'relaive
       org-directory "~/org/"
 
@@ -25,6 +23,8 @@
       select-enable-clipboard nil
 
       scroll-margin 14
+
+      +zen-text-scale 1
 
       company-idle-delay 0.2
 
@@ -42,25 +42,40 @@
       read-process-output-max (* 3 1024 1024) ;; 3 mb, doom emacs default is 1 mb
       lsp-idle-delay 0.250
 
-      lsp-headerline-breadcrumb-enable t
-      lsp-headerline-breadcrumb-segments '(symbols)
-
       ;; use xetex engine to better support Chinese in latex
       TeX-engine 'xetex
       )
 
-(use-package! lsp-ltex
-  :hook (text-mode . (lambda ()
-          (require 'lsp-ltex)
-          (lsp)))) ; or lsp-deferred
 
+;; lsp
 (after! lsp-ui
   (setq lsp-ui-sideline-diagnostic-max-lines 2))
 
+(use-package! lsp-ltex ;; check grammer and syntax
+  :hook (org-mode . (lambda ()
+          (require 'lsp-ltex)
+         (lsp)))) ; or lsp-deferred
+
+;; mode line
+(after! doom-modeline
+  (custom-set-variables
+    '(doom-modeline-buffer-file-name-style 'relative-to-project)
+    '(doom-modeline-major-mode-icon t))
+  (nyan-mode t))
+
+(use-package! nyan-mode
+  :config
+  (setq nyan-animate-nyancat t
+        nyan-wavy-trail t
+        nyan-cat-face-number 4
+        nyan-bar-length 20
+        nyan-minimum-window-width 100))
+
+(setq doom-fallback-buffer-name "► Doom"
+      +doom-dashboard-name "► Doom")
 
 (use-package! ranger
     :config (setq ranger-override-dired 'ranger))
-
 
 (load! "lisp/debug_settings.el")
 (load! "lisp/functions.el")
