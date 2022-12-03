@@ -53,3 +53,4 @@
 (package! lsp-ltex)
 (package! yuck-mode)
 (package! nyan-mode)
+(package! makefile-executor :pin "170d14d")

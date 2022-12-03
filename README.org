@@ -74,6 +74,3 @@ git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
 #+end_src
 
 2. replace the generated =.doom.d= directory with this config directory
-
-** TODO
-spell check configuration

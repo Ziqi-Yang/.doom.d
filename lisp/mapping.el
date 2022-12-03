@@ -26,8 +26,8 @@
   :n "x" #'flycheck-list-errors ;; errors in current file
   :n "X" #'lsp-treemacs-errors-list
 
-  :n "m" #'+make/run
-  :n "n" #'+make/run-last
+  ;; :n "m" #'+make/run
+  ;; :n "n" #'+make/run-last
 
   :prefix ("zl" . "lisp manage")
   :n "r"  #'lsp-workspace-folders-remove

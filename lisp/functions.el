@@ -52,6 +52,7 @@
     (live-web-start))
   )
 
+;; run single file
 (defun my-code-run-alacritty()
   "Run code in external terminal(alacritty)."
   (interactive)
@@ -119,7 +120,7 @@
   (interactive)
   (if (projectile-project-p) ;;; start browser-sync in the project root if in a project
       (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
-                                   (concat "alacritty --working-directory " (projectile-project-p) ))
+                                   (concat "alacritty --class floating --working-directory " (projectile-project-p) ))
     (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
                                  (concat "alacritty --working-directory " (file-name-directory buffer-file-name) )) ))
 
