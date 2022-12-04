@@ -111,7 +111,7 @@
   (setq my-tmpV-translator-pos1 (car my-tmpV-translator-bounds))
   (setq my-tmpV-translator-pos2 (cdr my-tmpV-translator-bounds))
   (setq my-tmpV-translator-mything (buffer-substring-no-properties my-tmpV-translator-pos1 my-tmpV-translator-pos2))
-  (setq my-tmpV-translator-commands (concat "echo " my-tmpV-translator-mything " ; ydict -c -v 1 " my-tmpV-translator-mything " ; echo ------------------------------ ; echo [Use Ctrl-Shift-Space to toggle vi mode] ; read -P '[Press ENTER key to exit]'"))
+  (setq my-tmpV-translator-commands (concat "echo " my-tmpV-translator-mything " ; source $HOME/.config/fish/functions/t.fish && t " my-tmpV-translator-mything " ; echo ------------------------------ ; echo [Use Ctrl-Shift-Space to toggle vi mode] ; read -P '[Press ENTER key to exit]'"))
   (start-process-shell-command "my-translator" "*my-buffer*" (concat "alacritty --class floating -e /usr/bin/fish -c \"" my-tmpV-translator-commands "\""))
   )
 

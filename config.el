@@ -12,9 +12,14 @@
 ;; (setq doom-theme 'doom-one)
 (setq-default
   tab-width 2)
+
 (setq doom-theme 'doom-solarized-light
       doom-font (font-spec :family "FiraCode Nerd Font" :size 34) ;; :weight 'light
-      doom-unicode-font (font-spec :family "LXGW WenKai" :size 34)
+      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 40)
+      doom-variable-pitch-font (font-spec :family "LXGW WenKai Mono")
+      ;; don't set size for doom-unicode-font, or the size won't be changed
+      doom-unicode-font (font-spec :family "LXGW WenKai") ;; CJK font
+
       display-line-numbers-type t ;; nil, 'relaive
       org-directory "~/org/"
 
