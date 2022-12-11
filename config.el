@@ -57,9 +57,11 @@
   (setq lsp-ui-sideline-diagnostic-max-lines 2))
 
 (use-package! lsp-ltex ;; check grammer and syntax
-  :hook (org-mode . (lambda ()
-          (require 'lsp-ltex)
-         (lsp)))) ; or lsp-deferred
+  :hook ((org-mode . (lambda ()
+          (require 'lsp-ltex) (lsp)))
+         (tex-mode . (lambda ()
+          (require 'lsp-ltex) (lsp)))
+          )) ; or lsp-deferred
 
 ;; mode line
 (after! doom-modeline

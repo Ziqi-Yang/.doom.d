@@ -9,7 +9,6 @@ git config --global https.proxy https://127.0.0.1:7890
 # git config --global --unset https.proxy
 #+end_src
 ** Requirements
-*** basic
 #+begin_src bash
 paru -S ttf-lxgw-wenkai ttf-lxgw-wenkai-mono # install chinese font
 paru -S ltex-ls-bin  # lsp-ltex
@@ -23,12 +22,10 @@ yay -S wordnet-cli
 
 npm install -g browser-sync # live web preview
 
-sudo pacman -S texlab # lsp latex
+sudo pacman -S texlab biber # lsp latex
 
 sudo pacman -S pandoc # org export
-#+end_src
-*** others
-#+begin_src bash
+
 sudo pacman -S libvterm make cmake
 # :check
 sudo pacman -S hunspell hunspell-en_us # spell

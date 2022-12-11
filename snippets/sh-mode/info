@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: info
+# key: info
+# --
+# --------------------
+# @Author: `user-full-name`(`user-mail-address`)
+# @Time: `(current-time-string)`;
+# --------------------
+
+$1

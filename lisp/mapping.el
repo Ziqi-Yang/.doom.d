@@ -20,11 +20,13 @@
   :prefix ("zc" . "code")
   ;; cc #'my-code-run-py-interactively
   :n "a" #'my-code-run-alacritty
+
   :n "l" #'lsp-ui-imenu ;; show symbols in the side (try lsp-treemace-symbols also, but it needsd some time to show up)
   :n "s" #'lsp-treemacs-symbols
   :n "h" #'lsp-treemacs-call-hierarchy
   :n "x" #'flycheck-list-errors ;; errors in current file
   :n "X" #'lsp-treemacs-errors-list
+  :n "S" #'lsp-ui-sideline-mode ;; toggle sideline mode
 
   ;; :n "m" #'+make/run
   ;; :n "n" #'+make/run-last
