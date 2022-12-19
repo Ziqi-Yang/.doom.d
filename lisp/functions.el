@@ -67,12 +67,14 @@
         (write-region "" nil tmpSourceFile)
         (write-region nil (point-max) tmpSourceFile t)
         ;; (write-region "\nENDTIME=time.time()\nprint('\\n\\n')\nprint('-'*30)\nprint('\033[33mTotal Time\033[0m: {}\033[33ms\033[0m'.format(ENDTIME-STARTTIME))\n" nil tmpSourceFile t)
-        (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --class fullscreen -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
+        (start-process-shell-command "my-code-run-alacritty" "*my-buffer*"
+          (concat "alacritty --class fullscreen -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
         ))
   ;; golang
   (if (equal major-mode 'go-mode)
       ;;   go run *.go
-      (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --class fullscreen -e " "/usr/bin/fish" " -c \"" (concat "go run " (file-name-directory buffer-file-name)) "/*.go"  " ; echo \n;echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'" "\""))
+      (start-process-shell-command "my-code-run-alacritty" "*my-buffer*"
+        (concat "alacritty --class fullscreen -e " "/usr/bin/fish" " -c \"" (concat "go run " (file-name-directory buffer-file-name)) "/*.go"  " ; echo \n;echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'" "\""))
     )
   (if (equal major-mode 'c++-mode)
       (let ((shell "/usr/bin/fish")
@@ -82,19 +84,29 @@
         (write-region "" nil tmpSourceFile)
         (write-region nil (point-max) tmpSourceFile)
         ;; (shell-command (concat "alacritty --command " tmpfile))
-        (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --class fullscreen -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
+        (start-process-shell-command "my-code-run-alacritty" "*my-buffer*"
+          (concat "alacritty --class fullscreen -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
         )
     )
   (if (equal major-mode 'c-mode)
       (let ((shell "/usr/bin/fish")
             (tmpExecutefile "/tmp/my-code-run-c-alacritty")
             (tmpSourceFile (expand-file-name ".my-code-run-c-alacritty.c"))
-            (command (concat "clang " (expand-file-name ".my-code-run-c-alacritty.c") " -fsanitize=undefined -o  /tmp/my-code-run-c-alacritty && time /tmp/my-code-run-c-alacritty; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'")))
+            (command (concat "clang " (expand-file-name ".my-code-run-c-alacritty.c")
+                       " -fsanitize=undefined -o  /tmp/my-code-run-c-alacritty && time /tmp/my-code-run-c-alacritty; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'")))
         (write-region "" nil tmpSourceFile)
         (write-region nil (point-max) tmpSourceFile)
         ;; (shell-command (concat "alacritty --command " tmpfile))
-        (start-process-shell-command "my-code-run-alacritty" "*my-buffer*" (concat "alacritty --class fullscreen -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
+        (start-process-shell-command "my-code-run-alacritty" "*my-buffer*"
+          (concat "alacritty --class fullscreen -e " shell " -c \"" command "\"" "; rm " tmpSourceFile))
         )
+    )
+  (if (equal major-mode 'java-mode)
+    (let (
+           (command (concat "time java " (buffer-file-name) "; echo ------------------------------ ; echo -e [Use \033[33mCtrl-Shift-Space\033[0m to toggle vi mode] ; read -P '[Press \033[33mENTER\033[0m key to exit]'")))
+      (start-process-shell-command "my-code-run-alacritty" "*my-buffer*"
+        (concat "alacritty --class fullscreen -e /usr/bin/fish -c \"" command "\""))
+      )
     )
   (if (equal major-mode 'web-mode)
       (live-web-start))
@@ -122,7 +134,7 @@
       (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
                                    (concat "alacritty --class floating --working-directory " (projectile-project-p) ))
     (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
-                                 (concat "alacritty --working-directory " (file-name-directory buffer-file-name) )) ))
+                                 (concat "alacritty --class floating --working-directory " (file-name-directory buffer-file-name) )) ))
 
 
 

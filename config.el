@@ -105,4 +105,6 @@
 (load! "lisp/functions.el")
 (load! "lisp/mapping.el")
 
+(add-to-list 'default-frame-alist '(alpha . 90))
+
 (global-wakatime-mode)
