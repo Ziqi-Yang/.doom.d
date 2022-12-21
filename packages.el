@@ -53,4 +53,7 @@
 (package! lsp-ltex)
 (package! yuck-mode)
 (package! nyan-mode)
+(package! org-modern)
 (package! makefile-executor :pin "170d14d")
+;; (package! screenshot ;;; not works well on my computer
+;;   :recipe (:host github :repo "tecosaur/screenshot"))

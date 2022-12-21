@@ -21,7 +21,7 @@
       doom-unicode-font (font-spec :family "LXGW WenKai") ;; CJK font
 
       display-line-numbers-type t ;; nil, 'relaive
-      org-directory "~/org/"
+      org-directory "~/notes/"
 
       evil-escape-delay 1.0
       evil-escape-key-sequence "kk"
@@ -32,6 +32,7 @@
       +zen-text-scale 1
 
       company-idle-delay 0.2
+      company-show-numbers t ;; alt + <num> to choose
 
       ;; which-key-side-window-max-height 0.3
       which-key-use-C-h-commands t
@@ -108,3 +109,4 @@
 (add-to-list 'default-frame-alist '(alpha . 90))
 
 (global-wakatime-mode)
+(global-org-modern-mode)
