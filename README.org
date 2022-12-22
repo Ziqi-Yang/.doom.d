@@ -64,10 +64,9 @@ pip3 install debugpy --user # debug python
 
 ** doom installation
 1. install doom(don't place this =.doom.d= directory before installation, otherwise there may be some problem for =lsp=)
-
-#+begin_src bash
-git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
-~/.emacs.d/bin/doom install
-#+end_src
-
+    #+begin_src bash
+    git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
+    ~/.emacs.d/bin/doom install
+    #+end_src
 2. replace the generated =.doom.d= directory with this config directory
+3. Notice that the first time run =doom emacs= will consume a lot of CPU resources(maybe do some compiling in the back?)

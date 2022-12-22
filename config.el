@@ -14,8 +14,8 @@
   tab-width 2)
 
 (setq doom-theme 'doom-solarized-light
-      doom-font (font-spec :family "FiraCode Nerd Font" :size 34) ;; :weight 'light
-      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 40)
+      doom-font (font-spec :family "FiraCode Nerd Font" :size 18) ;; :weight 'light
+      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 21)
       doom-variable-pitch-font (font-spec :family "LXGW WenKai Mono")
       ;; don't set size for doom-unicode-font, or the size won't be changed
       doom-unicode-font (font-spec :family "LXGW WenKai") ;; CJK font
@@ -29,7 +29,7 @@
 
       scroll-margin 14
 
-      +zen-text-scale 1
+      ;; +zen-text-scale 1
 
       company-idle-delay 0.2
       company-show-numbers t ;; alt + <num> to choose
