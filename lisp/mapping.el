@@ -8,11 +8,12 @@
  :leader
  :n "o=" #'project-dired
  (:prefix ("z" . "mine")
-  :desc "toggle-trans"             :n  "\\"    #'chunyang-toggle-frame-transparency
+  :desc "toggle-trans"            :n  "\\"    #'chunyang-toggle-frame-transparency
   :n "v"  #'vterm-other-window
   :n "a"  #'open-alacritty
   :n "t" #'my-translator-alacritty
   :n "z" #'reload-theme-according-ui
+  :n "m" #'+default/man-or-woman
 
   :prefix ("zb" . "buffer")
   :desc "erase-whole-buffer"      :n   "e"     ":%d"

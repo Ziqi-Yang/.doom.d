@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 (defun chunyang-toggle-frame-transparency ()
-  "Toggle the Emacs window opacity."
+  "Toggle the Emacs window opacity. Not working in emacs29-pgtk."
   (interactive)
   (if (equal (frame-parameter nil 'alpha) 90)
       (set-frame-parameter nil 'alpha 100)
