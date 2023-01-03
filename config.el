@@ -31,18 +31,14 @@
 
       ;; +zen-text-scale 1
 
-      company-idle-delay 0.2
       company-show-numbers t ;; alt + <num> to choose
+      company-minimum-prefix-length 1
+      company-idle-delay 0
+      company-minimum-prefix-length 1
 
       ;; which-key-side-window-max-height 0.3
       which-key-use-C-h-commands t
       which-key-idle-delay 0.5
-
-      fancy-splash-image "/home/zarkli/.doom.d/assets/avatar_300-300.png"
-
-      company-minimum-prefix-length 1
-      company-idle-delay 0
-      company-minimum-prefix-length 1
 
       ;; increase lsp performance
       ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
@@ -54,58 +50,12 @@
       )
 
 
-;; lsp
-(after! lsp-ui
-  (setq lsp-ui-sideline-diagnostic-max-lines 2))
-
-(use-package! lsp-ltex ;; check grammer and syntax
-  :hook ((org-mode . (lambda ()
-          (require 'lsp-ltex) (lsp)))
-         (tex-mode . (lambda ()
-          (require 'lsp-ltex) (lsp)))
-          )) ; or lsp-deferred
-
-;; mode line
-(after! doom-modeline
-  (custom-set-variables
-    '(doom-modeline-buffer-file-name-style 'relative-to-project)
-    '(doom-modeline-major-mode-icon t))
-  (nyan-mode t))
-
-(use-package! nyan-mode
-  :config
-  (setq nyan-animate-nyancat nil
-        nyan-wavy-trail nil
-        nyan-cat-face-number 4
-        nyan-bar-length 20
-        nyan-minimum-window-width 100))
-
-(setq doom-fallback-buffer-name "► Doom"
-      +doom-dashboard-name "► Doom")
-
-(use-package! ranger
-    :config (setq ranger-override-dired 'ranger))
-
-;; use sioyek as default latex pdf viewer
-(setq TeX-view-program-list
-      '(("Sioyek"
-        ("sioyek %o"
-         (mode-io-correlate " --forward-search-file %b --forward-search-line %n --inverse-search \"emacsclient --no-wait +%2:%3 %1\""))
-        "sioyek"))
-      TeX-view-program-selection
-      '(((output-dvi has-no-display-manager)
-         "dvi2tty")
-        ((output-dvi style-pstricks)
-         "dvips and gv")
-        (output-dvi "xdvi")
-        (output-pdf "Sioyek")
-        (output-html "xdg-open")
-        (output-pdf "preview-pane"))
-      +latex-viewers '(sioyek))
-
+(load! "lisp/ui.el")
+(load! "lisp/lsp.el")
 (load! "lisp/debug_settings.el")
 (load! "lisp/functions.el")
 (load! "lisp/mapping.el")
+(load! "lisp/trivial.el")
 
 ;; casuse performance issue in pgtk build on wayland(emacs28,29-native-comp)
 ;; (add-to-list 'default-frame-alist '(alpha . 90))
