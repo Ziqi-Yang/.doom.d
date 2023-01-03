@@ -127,14 +127,21 @@
   (start-process-shell-command "my-translator" "*my-buffer*" (concat "alacritty --class floating -e /usr/bin/fish -c \"" my-tmpV-translator-commands "\""))
   )
 
-(defun open-alacritty()
-  "Open alacritty terminal at the current folder."
+(defun open-alacritty-smart()
+  "Open alacritty terminal at project root if in a project, otherwise current folder."
   (interactive)
-  (if (projectile-project-p) ;;; start browser-sync in the project root if in a project
+  (if (projectile-project-p)
       (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
                                    (concat "alacritty --class floating --working-directory " (projectile-project-p) ))
     (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
                                  (concat "alacritty --class floating --working-directory " (file-name-directory buffer-file-name) )) ))
+
+
+(defun open-alacritty-here()
+  "Open alacritty terminal at the current folder."
+  (interactive)
+  (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
+                                (concat "alacritty --class floating --working-directory " (file-name-directory buffer-file-name) )) )
 
 
 
