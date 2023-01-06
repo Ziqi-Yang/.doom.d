@@ -20,6 +20,8 @@
       ;; don't set size for doom-unicode-font, or the size won't be changed
       doom-unicode-font (font-spec :family "LXGW WenKai") ;; CJK font
 
+
+
       display-line-numbers-type t ;; nil, 'relaive
       org-directory "~/notes/"
 
@@ -62,3 +64,5 @@
 
 (global-wakatime-mode)
 (global-org-modern-mode)
+
+(native-compile-prune-cache) ;; remove old version native-compiled files
