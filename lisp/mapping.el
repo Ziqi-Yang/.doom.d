@@ -3,7 +3,8 @@
 
 (map!
   :i "C-S-v" 'clipboard-yank)
-
+(map!
+  :leader :n "tW" 'bh:see-all-whitespace)
 (map!
  :leader
  :n "o=" #'project-dired

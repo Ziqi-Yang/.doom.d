@@ -143,7 +143,12 @@
   (start-process-shell-command "open-alacritty-in-folder" "*alacritty*"
                                 (concat "alacritty --class floating --working-directory " (file-name-directory buffer-file-name) )) )
 
-
+(defun bh:see-all-whitespace ()
+  "You may need to invoke the function twice to make it work."
+  (interactive)
+  (setq whitespace-style (default-value 'whitespace-style))
+  (setq whitespace-display-mappings (default-value 'whitespace-display-mappings))
+  (whitespace-mode 'toggle))
 
 (provide 'functions)
 ;;; functions.el ends here
