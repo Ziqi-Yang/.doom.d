@@ -1,6 +1,11 @@
 ;;; lisp/ui.el -*- lexical-binding: t; -*-
 ;;; UI settings
 
+;; font (extra)
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
+
 ;; doom buffer name
 (setq doom-fallback-buffer-name "► Doom"
       +doom-dashboard-name "► Doom")
@@ -69,17 +74,18 @@
 
 
 ;; mode line
+;; (set-face-attribute 'mode-line nil :font "Zpix-16") ;; mode line font, no use on startup (-ʖ̯-)
+(setq doom-modeline-persp-name t  ;; adds perspective name to modeline
+      doom-modeline-persp-icon t) ;; adds folder icon next to persp name)
 (after! doom-modeline
   (custom-set-variables
-    '(doom-modeline-buffer-file-name-style 'relative-to-project)
+    ;; '(doom-modeline-buffer-file-name-style 'relative-to-project)
     '(doom-modeline-major-mode-icon t))
   (nyan-mode t))
 
-(use-package! nyan-mode
-  :config
+(after! nyan-mode
   (setq nyan-animate-nyancat nil
-        nyan-wavy-trail nil
-        nyan-cat-face-number 4
-        nyan-bar-length 20
-        nyan-minimum-window-width 100))
-
+    nyan-wavy-trail nil
+    nyan-cat-face-number 4
+    nyan-bar-length 20
+    nyan-minimum-window-width 100))

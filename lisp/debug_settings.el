@@ -3,7 +3,7 @@
 (after! dap-mode
   (setq dap-python-debugger 'debugpy))
 
-;; rust debug
+;; Rust language
 ;; source: https://gagbo.net/post/dap-mode-rust/
 (with-eval-after-load 'lsp-rust
   (require 'dap-cpptools)) ;; require dap-cpptools to use debug lens on function

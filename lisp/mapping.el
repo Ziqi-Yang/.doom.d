@@ -3,11 +3,16 @@
 
 (map!
   :i "C-S-v" 'clipboard-yank)
+
+;; based on doom already mapped leading character(like t, o), but no clash
 (map!
-  :leader :n "tW" 'bh:see-all-whitespace)
+  :leader
+  :n "tW" 'bh:see-all-whitespace
+  :n "o=" #'project-dired)
+
+;; leader Z
 (map!
  :leader
- :n "o=" #'project-dired
  (:prefix ("z" . "mine")
   :desc "toggle-trans"            :n  "\\"    #'chunyang-toggle-frame-transparency
   :n "v"  #'vterm-other-window
@@ -63,7 +68,11 @@
  :n "k" #'live-web-kill
  :n "l" #'live-web-toggle)
 
+;; org mode mapping
+(map! :leader
+      :desc "Org babel tangle" "m B" #'org-babel-tangle)
 
+;; dap-mode mapping
 (map! :map dap-mode-map
       :leader
       :prefix ("d" . "dap")
@@ -94,4 +103,3 @@
       :desc "dap breakpoint condition"   "c" #'dap-breakpoint-condition
       :desc "dap breakpoint hit count"   "h" #'dap-breakpoint-hit-condition
       :desc "dap breakpoint log message" "l" #'dap-breakpoint-log-message)
-

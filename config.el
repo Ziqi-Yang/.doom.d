@@ -13,16 +13,14 @@
   tab-width 2)
 
 (setq doom-theme 'doom-solarized-light
-      doom-font (font-spec :family "FiraCode Nerd Font" :size 18) ;; :weight 'light
-      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 21)
-      doom-variable-pitch-font (font-spec :family "LXGW WenKai Mono")
+      doom-font (font-spec :family "BlexMono Nerd Font" :size 18) ;; :weight 'light
+      ;; doom-font (font-spec :family "FiraCode Nerd Font" :size 18) ;; :weight 'light
+      doom-big-font (font-spec :family "BlexMono Nerd Font" :size 21)
+      doom-variable-pitch-font (font-spec :family "BlexMono Nerd Font")
       ;; don't set size for doom-unicode-font, or the size won't be changed
       doom-unicode-font (font-spec :family "LXGW WenKai") ;; CJK font
 
-
-
       display-line-numbers-type t ;; nil, 'relaive
-      org-directory "~/notes/"
 
       evil-escape-delay 1.0
       evil-escape-key-sequence "kk"
@@ -35,7 +33,6 @@
       company-show-numbers t ;; alt + <num> to choose
       company-minimum-prefix-length 1
       company-idle-delay 0
-      company-minimum-prefix-length 1
 
       ;; which-key-side-window-max-height 0.3
       which-key-use-C-h-commands t
@@ -50,18 +47,19 @@
       TeX-engine 'xetex
       )
 
+(global-wakatime-mode)
+(global-org-modern-mode) ;; need to be placed before org configuration, otherwise not work?
+(beacon-mode 1) ;; highlight the cursor whenever the window scrolls
 
 (load! "lisp/ui.el")
 (load! "lisp/lsp.el")
 (load! "lisp/debug_settings.el")
 (load! "lisp/functions.el")
-(load! "lisp/mapping.el")
+(load! "lisp/org.el")
 (load! "lisp/trivial.el")
+(load! "lisp/mapping.el")
 
-;; casuse performance issue in pgtk build on wayland(emacs28,29-native-comp)
+;; this line will casuse performance issue in pgtk build on wayland(emacs28,29-native-comp)
 ;; (add-to-list 'default-frame-alist '(alpha . 90))
-
-(global-wakatime-mode)
-(global-org-modern-mode)
 
 (native-compile-prune-cache) ;; remove old version native-compiled files

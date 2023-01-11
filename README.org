@@ -10,15 +10,21 @@ git config --global https.proxy https://127.0.0.1:7890
 #+end_src
 ** Requirements
 #+begin_src bash
-paru -S ttf-lxgw-wenkai ttf-lxgw-wenkai-mono # install chinese font
+# doom requirement
+sudo pacman -S ripgrap fd
+
+# font
+paru -S nerd-fonts-ibm-plex-mono # main font
+paru -S ttf-zpix # mode line pixel font
+paru -S ttf-lxgw-wenkai ttf-lxgw-wenkai-mono # doom-unicode-font: chinese font
+# paru ttf-firacode-nerd
+
 paru -S ltex-ls-bin  # lsp-ltex
-sudo pacman -S ripgrap fd emacs-nativecomp
-paru ttf-firacode-nerd
 
 sudo pacman -S wakatime # custom wakatime-mode package need
 
 sudo pacman -S sqlite ripgrep # :lookup
-yay -S wordnet-cli
+paru -S wordnet-cli
 
 npm install -g browser-sync # live web preview
 
@@ -59,8 +65,6 @@ pip3 install debugpy --user # debug python
 # or set proxy environment variable(haven't try env))
 
 #+end_src
-
-#+RESULTS:
 
 ** doom installation
 1. install doom(don't place this =.doom.d= directory before installation, otherwise there may be some problem for =lsp=)
