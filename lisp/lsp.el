@@ -7,7 +7,7 @@
 (use-package! lsp-ltex ;; check grammer and syntax. However first time you open a target file, it slows the process.
   :defer t
   :hook ((org-mode . (lambda ()
-          (require 'lsp-ltex) (lsp)))
+          (require 'lsp-ltex) (lsp-deferred)))
          (tex-mode . (lambda ()
-          (require 'lsp-ltex) (lsp)))
-          )) ; or lsp-deferred
+          (require 'lsp-ltex) (lsp-deferred)))
+          )) ; or lsp

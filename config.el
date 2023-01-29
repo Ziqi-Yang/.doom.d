@@ -1,5 +1,5 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-(setq user-full-name "Zarkli Leonardo"
+(setq user-full-name "MeowKing"
       user-mail-address "mr.ziqiyang@gmail.com")
 
 ;; Theme Recommendations:

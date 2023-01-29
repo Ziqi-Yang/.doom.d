@@ -52,6 +52,23 @@ paru -S clang ccls cmake
 pip install cmake-language-server --user
 paru rtags-git
 
+# golang
+go install github.com/x-motemen/gore/cmd/gore@latest
+go install github.com/stamblerre/gocode@latest
+go install golang.org/x/tools/cmd/godoc@latest
+go install golang.org/x/tools/cmd/goimports@latest
+go install golang.org/x/tools/cmd/gorename@latest
+go install golang.org/x/tools/cmd/guru@latest
+go install github.com/cweill/gotests/gotests@latest
+go install github.com/fatih/gomodifytags@latest
+paru -S golangci-lint-bin gopls
+
+# rust
+paru -S rustup rust-analyzer clang lld
+rustup component add rustfmt-preview
+cargo install cargo-check
+rustup component add clippy-preview
+
 # sh
 paru -S shellcheck bash-language-serve bashdb
 
@@ -65,6 +82,8 @@ pip3 install debugpy --user # debug python
 # or set proxy environment variable(haven't try env))
 
 #+end_src
+
+#+RESULTS:
 
 ** doom installation
 1. install doom(don't place this =.doom.d= directory before installation, otherwise there may be some problem for =lsp=)

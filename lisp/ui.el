@@ -1,10 +1,31 @@
 ;;; lisp/ui.el -*- lexical-binding: t; -*-
 ;;; UI settings
 
+(defun my-set-evil-cursor-face ()
+  "Set evil cursor face according to theme(light/dark)."
+  (interactive)
+  (if (eq doom-theme 'doom-solarized-light)
+      (setq  evil-normal-state-cursor  '("DodgerBlue" box)
+        evil-insert-state-cursor  '("IndianRed1" (bar . 2))
+        evil-emacs-state-cursor   '("SkyBlue2" box)
+        evil-replace-state-cursor '("Chocolate" (hbar . 2))
+        evil-visual-state-cursor  '("DarkViolet" (hollow . 2))
+        evil-motion-state-cursor  '("Plum3" box))
+    (if (eq doom-theme 'doom-gruvbox)
+        (setq  evil-normal-state-cursor  '("Gainsboro" box)
+          evil-insert-state-cursor  '("LightSalmon" (bar . 2))
+          evil-emacs-state-cursor   '("SkyBlue2" box)
+          evil-replace-state-cursor '("NavajoWhite" (hbar . 2))
+          evil-visual-state-cursor  '("Magenta" (hollow . 2))
+          evil-motion-state-cursor  '("Plum3" box))
+      nil)))
+
 ;; font (extra)
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
+
+;; cursor color
 
 ;; doom buffer name
 (setq doom-fallback-buffer-name "► Doom"
@@ -89,3 +110,17 @@
     nyan-cat-face-number 4
     nyan-bar-length 20
     nyan-minimum-window-width 100))
+
+(add-hook 'circadian-after-load-theme-hook
+          #'(lambda (_)
+              (my-set-evil-cursor-face)))
+
+;; switch theme according to daytime
+(use-package! circadian
+  :ensure t
+  :config
+  (setq calendar-longitude 118.5)
+  (setq calendar-latitude 28.8)
+  (setq circadian-themes '((:sunrise . doom-solarized-light)
+                        (:sunset  . doom-gruvbox)))
+  (circadian-setup))

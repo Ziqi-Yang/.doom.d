@@ -5,8 +5,8 @@
 (setq!
   org-directory "~/notes/"
   org-hide-emphasis-markers t
+  org-ellipsis " ▾ "
   org-pretty-entities t
-  org-ellipsis "…"
   org-log-done 'time
   ;; org-priority-faces
   ;;   '((?A :foreground "#ff6c6b" :weight bold)
@@ -19,14 +19,28 @@
   org-todo-keywords        ; This overwrites the default Doom org-todo-keywords
     '((sequence
         "TODO(t)"           ; A task that is ready to be tackled
-        "BLOG(b)"           ; Blog writing assignments
-        "GYM(g)"            ; Things to accomplish at the gym
         "PROJ(p)"           ; A project that contains other tasks
-        "VIDEO(v)"          ; Video assignments
+        "PROG(g)"           ; programming
+        "BLOG(b)"           ; Blog writing assignments
         "WAIT(w)"           ; Something is holding up this task
         "|"                 ; The pipe necessary to separate "active" states and "inactive" states
         "DONE(d)"           ; Task has been completed
-        "CANCELLED(c)" )))
+        "CANCELLED(c)" ))
+  org-modern-todo-faces
+    '(("TODO" :background "#00b894" ;; green
+              :foreground "white")
+      ("PROG" :background "#e17055" ;; orange
+              :foreground "white")
+      ("PROJ" :background "#6c5ce7" ;; purple
+              :foreground "white")
+      ("BLOG" :background "#fdcb6e" ;; yellow
+              :foreground "black")
+      ("WAIT" :background "#ff7675" ;; grey
+              :foreground "white")
+      ("DONE" :background "#b2bec3" ;; grey
+              :foreground "white")
+      ("CANCELLED"  :foreground "#b2bec3")
+       ))
 
 ;; org-agenda
 (setq!
@@ -49,3 +63,10 @@
 
           (agenda "")
           (alltodo "")))))
+
+;; org-auto-tangle
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))

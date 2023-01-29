@@ -1,8 +1,21 @@
 ;;; lisp/mapping.el -*- lexical-binding: t; -*-
 ;;; Key Settings
 
+;;; unmap ========================================
+(map! :leader
+      :n "w C-h" nil) ;; evil-window-left keybinding(but another keybinding <leader-w-h> also binds to it) conflicts with which-key page next/prev
+
+;;; map ========================================
 (map!
-  :i "C-S-v" 'clipboard-yank)
+  ;; utils
+  :i "C-S-v" 'clipboard-yank
+  :i "C-s" 'save-buffer
+
+  ;; movement
+  :i "C-j" 'evil-next-line
+  :i "C-k" 'evil-previous-line
+  :i "C-h" 'backward-char ;; conflict, but originally C-h have the same function as :n <SPC-h>
+  :i "C-l" 'forward-char)
 
 ;; based on doom already mapped leading character(like t, o), but no clash
 (map!
@@ -10,7 +23,12 @@
   :n "tW" 'bh:see-all-whitespace
   :n "o=" #'project-dired)
 
-;; leader Z
+;; leader =
+(map! :leader
+      (:prefix ("=" . "open file")
+       :desc "Edit agenda file"      "a" #'(lambda () (interactive) (find-file "~/notes/agenda.org"))))
+
+;; leader z
 (map!
  :leader
  (:prefix ("z" . "mine")
@@ -19,7 +37,6 @@
   :n "a"  #'open-alacritty-smart
   :n "x"  #'open-alacritty-here
   :n "t" #'my-translator-alacritty
-  :n "z" #'reload-theme-according-ui
   :n "m" #'+default/man-or-woman
 
   :prefix ("zb" . "buffer")

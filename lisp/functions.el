@@ -8,12 +8,6 @@
       (set-frame-parameter nil 'alpha 100)
     (set-frame-parameter nil 'alpha 90)))
 
-(defun reload-theme-according-ui ()
-  "Manually eload theme for different use in tui and gui EMACS."
-  (interactive)
-  (if (display-graphic-p)
-      (load-theme 'doom-solarized-light t)
-    (load-theme 'doom-tokyo-night t)))
 
 
 (defun live-web-start()
@@ -113,7 +107,6 @@
   (if (equal major-mode 'css-mode)
       (live-web-start))
   )
-
 
 
 (defun my-translator-alacritty()
