@@ -39,8 +39,12 @@
               :foreground "white")
       ("DONE" :background "#b2bec3" ;; grey
               :foreground "white")
-      ("CANCELLED"  :foreground "#b2bec3")
-       ))
+      ("CANCELLED"  :foreground "#b2bec3"))
+  org-modern-priority
+    `((?A . ,(propertize "❗" 'face 'error))
+      (?B . ,(propertize "[B]" 'face 'warning))
+      (?C . ,(propertize "[C]" 'face 'sucess)))
+       )
 
 ;; org-agenda
 (setq!

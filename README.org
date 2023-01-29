@@ -1,5 +1,5 @@
-#+title: Installation
-
+#+title: README
+* Prerequest
 ** Git proxy (optional)
 this configuration make sure your network connection is guranteed
 #+begin_src bash
@@ -8,6 +8,7 @@ git config --global https.proxy https://127.0.0.1:7890
 # git config --global --unset http.proxy
 # git config --global --unset https.proxy
 #+end_src
+
 ** Requirements
 #+begin_src bash
 # doom requirement
@@ -80,16 +81,51 @@ pip3 install debugpy --user # debug python
 # first time run: M-x dap-gdb-lldb-setup
 # first time run: M-x dap-cpptools-setup (need proxy: run emacs with proxychains,
 # or set proxy environment variable(haven't try env))
-
 #+end_src
-
-#+RESULTS:
 
 ** doom installation
 1. install doom(don't place this =.doom.d= directory before installation, otherwise there may be some problem for =lsp=)
     #+begin_src bash
-    git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
+    git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d_doom
+    ln -sf ~/.emacs.d_doom ~/.emacs.d
     ~/.emacs.d/bin/doom install
     #+end_src
 2. replace the generated =.doom.d= directory with this config directory
-3. Notice that the first time run =doom emacs= will consume a lot of CPU resources(maybe do some compiling in the back?)
+3. Notice that the first time run =doom emacs= will consume a lot of CPU resources(do some native compiling in the background)
+
+* Common Issues
+** doom upgrade
+*** couldn't find remote ref refs/heads/master
+=log=:
+#+begin_src bash
+$ cd /home/zarkli/.emacs.d_doom/.local/straight/repos/with-editor/
+$ git config --get remote.origin.url
+https://github.com/magit/with-editor.git
+[Return code: 0]
+$ cd /home/zarkli/.emacs.d_doom/.local/straight/repos/with-editor/
+$ git fetch origin
+fatal: couldn't find remote ref refs/heads/master
+[Return code: 128]
+#+end_src
+Possibly due to the source delete the master branch(and rename it to the main branch)
+
+=solution=:
+#+begin_src bash
+cd /home/zarkli/.emacs.d_doom/.local/straight/repos/with-editor/
+git remote remove master
+git remote add origin https://github.com/magit/with-editor.git
+#+end_src
+If there are too many exceptions occur during the =upgrade=, you can also try to simply remove the =.emacs.d/.local/straight= folder and then run the =doom upgrade= or =doom sync -u= command.
+
+*** Failed to fetch from upstream
+https://github.com/doomemacs/doomemacs/issues/6598#issuecomment-1209548685
+=possible solution=
+#+begin_src bash
+git remote remove _upgrade
+git branch -D _upgrade_master
+#+end_src
+
+* Others' Configuration
+- [[https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/doom/config.org][Derek Taylor]]
+- [[https://blog.ginshio.org/2022/doom_emacs_configuration/][Gin Shio]]
+- [[https://tecosaur.github.io/emacs-config/config.html][Tecosaur]]
