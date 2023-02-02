@@ -17,3 +17,6 @@
         (output-html "xdg-open")
         (output-pdf "preview-pane"))
       +latex-viewers '(sioyek))
+
+(after! rust-mode
+  (add-to-list '+lookup-provider-url-alist '("Crates.io" "https://crates.io/crates/%s")))

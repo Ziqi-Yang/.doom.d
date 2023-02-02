@@ -2,6 +2,9 @@
 (setq user-full-name "MeowKing"
       user-mail-address "mr.ziqiyang@gmail.com")
 
+;; Recommend Reading:
+;;   Doom Emacs Anti Patterns: https://discourse.doomemacs.org/t/common-config-anti-patterns/119
+
 ;; Theme Recommendations:
 ;; light-theme:
 ;;      doom-solarized-light doom-grubbox-light

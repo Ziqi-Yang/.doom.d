@@ -122,5 +122,5 @@
   (setq calendar-longitude 118.5)
   (setq calendar-latitude 28.8)
   (setq circadian-themes '((:sunrise . doom-solarized-light)
-                        (:sunset  . doom-gruvbox)))
+                        (:sunset  . doom-opera)))
   (circadian-setup))

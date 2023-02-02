@@ -29,29 +29,28 @@ paru -S wordnet-cli
 
 npm install -g browser-sync # live web preview
 
-sudo pacman -S texlab biber # lsp latex
+sudo pacman -S texlive-most texlive-lang texlab biber # lsp latex
 
 sudo pacman -S pandoc # org export
 
 sudo pacman -S libvterm make cmake
 # :check
-sudo pacman -S hunspell hunspell-en_us # spell
+# sudo pacman -S hunspell hunspell-en_us # spell
 # sudo pacman -S languagetool # grammer (user experience is not very good)
-# :tools
+# :lang
 #
 pip install pyright pytest nose black pyflakes isort # python(lsp)
 
 # rust
-rustup component add rustfmt-preview
+rustup component add rustfmt-preview clippy-preview
 cargo install cargo-check
-rustup component add clippy-preview
 paru -S rust-analyzer
 # debug need debugger module and dap-cpptools
 
 # c/cpp
 paru -S clang ccls cmake
 pip install cmake-language-server --user
-paru rtags-git
+paru -S rtags-git
 
 # golang
 go install github.com/x-motemen/gore/cmd/gore@latest
@@ -71,8 +70,9 @@ cargo install cargo-check
 rustup component add clippy-preview
 
 # sh
-paru -S shellcheck bash-language-serve bashdb
+paru -S shellcheck bash-language-server bashdb
 
+# :tools
 # debug
 paru -S lldb lldb-mi-git gdb unzip
 pip3 install ptvsd --user # debug python
@@ -123,6 +123,16 @@ https://github.com/doomemacs/doomemacs/issues/6598#issuecomment-1209548685
 #+begin_src bash
 git remote remove _upgrade
 git branch -D _upgrade_master
+#+end_src
+
+* Org mode tips:
+** Tangle
+- =#+auto_tangle: t= to auto tangle when save file (=org-auto-tangle= package)
+- =#+PROPERTY: header-args :tangle yes= to set =tangle= property for all code blocks(?)
+Note the =#+= character has been hidden in the following code block.
+#+begin_src
+#+auto_tangle: t
+#+PROPERTY: header-args :tangle yes
 #+end_src
 
 * Others' Configuration
