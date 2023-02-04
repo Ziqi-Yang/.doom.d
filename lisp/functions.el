@@ -8,6 +8,17 @@
       (set-frame-parameter nil 'alpha 100)
     (set-frame-parameter nil 'alpha 90)))
 
+(defun open-in-code ()
+  "Open Current file or project in Code Oss(Vs Code)."
+  (interactive)
+  (if (projectile-project-p) ;;; start browser-sync in the project root if in a project
+      (start-process-shell-command "code oss"
+                                   "*code oss*"
+                                   (concat "code " (projectile-project-p)))
+      (start-process-shell-command "code oss"
+                                   "*code oss*"
+                                   (concat "code " (buffer-file-name))))
+  (message "done"))
 
 
 (defun live-web-start()
@@ -26,8 +37,7 @@
                                  "*my-buffer*"
                                  "browser-sync start --server --files '*.html,*.css,*.js,**/*.html,**/*.css,**/*.js'"))
 
-  (message "live web start")
-  )
+  (message "live web start"))
 
 (defun live-web-kill()
   "End live web server process."

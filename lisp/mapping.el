@@ -36,8 +36,8 @@
   :n "v"  #'vterm-other-window
   :n "a"  #'open-alacritty-smart
   :n "x"  #'open-alacritty-here
-  :n "t" #'my-translator-alacritty
-  :n "m" #'+default/man-or-woman
+  :n "t"  #'my-translator-alacritty
+  :n "m"  #'+default/man-or-woman
 
   :prefix ("zb" . "buffer")
   :desc "erase-whole-buffer"      :n   "e"     ":%d"
@@ -45,7 +45,7 @@
   :prefix ("zc" . "code")
   ;; cc #'my-code-run-py-interactively
   :n "a" #'my-code-run-alacritty
-
+  :n "c" #'open-in-code
   :n "l" #'lsp-ui-imenu ;; show symbols in the side (try lsp-treemace-symbols also, but it needsd some time to show up)
   :n "s" #'lsp-treemacs-symbols
   :n "h" #'lsp-treemacs-call-hierarchy

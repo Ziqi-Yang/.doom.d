@@ -121,6 +121,7 @@ If there are too many exceptions occur during the =upgrade=, you can also try to
 https://github.com/doomemacs/doomemacs/issues/6598#issuecomment-1209548685
 =possible solution=
 #+begin_src bash
+# .emacs.d
 git remote remove _upgrade
 git branch -D _upgrade_master
 #+end_src

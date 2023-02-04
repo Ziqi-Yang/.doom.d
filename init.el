@@ -142,7 +142,7 @@
        ;;idris             ; a language you can depend on
        (json +lsp)              ; At least it ain't XML
        (java +lsp +tree-sitter)       ; the poster child for carpal tunnel syndrome
-       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       (javascript +lsp +tree-sitter)        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        (latex +cdlatex +fold +lsp)            ; writing papers in Emacs has never been so fun
